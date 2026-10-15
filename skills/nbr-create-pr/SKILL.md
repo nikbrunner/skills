@@ -1,6 +1,7 @@
 ---
 name: nbr-create-pr
 description: "Write or update a pull request in Nik's shape: a slice title, short nested bullets for what changed, tests added (e2e per scenario), how to test, optional screenshots and design-file changes, open decisions. Drafts locally, waits for approval, then publishes."
+compatibility: Requires the gh CLI for GitHub or bkt for Bitbucket.
 argument-hint: "[optional PR number or URL]"
 user-invocable: true
 metadata:

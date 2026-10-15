@@ -3,6 +3,7 @@ name: nbr-record-clip
 description:
   "Record motion as a smooth looping animated WebP. Use when a still screenshot cannot show the behavior, or when asked to
   record, film, or animate a terminal or Neovim session, a web page, or a native app window."
+compatibility: Requires ImageMagick. Terminal clips need VHS and ffmpeg, browser clips Node and Playwright, native app clips ffmpeg on macOS (AVFoundation).
 argument-hint: "<terminal | browser | native> [what to show]"
 allowed-tools: Read Write Bash
 ---

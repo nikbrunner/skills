@@ -1,6 +1,7 @@
 ---
 name: nbr-nvim
 description: "My Neovim/Lua development workflow — doc lookup via local help files, headless API verification. Load when working on Neovim configs or plugins (lua specs, vim.pack, mini.*, LSP configs, vim.* APIs)."
+compatibility: Requires Neovim and ripgrep (rg).
 user-invocable: false
 metadata:
   user-invocable: false
