@@ -11,7 +11,7 @@ Collect, without asking:
   artifacts.
 - `git tag --sort=-v:refname | head`, `git log --oneline -30`: latest version, commit style, recurring scopes.
 - Check commands from `Makefile`, `package.json` scripts, `mise.toml`, CI workflows: the CI-parity pass and a docs lint.
-- Hooks: `lefthook.yml`, `.githooks/`, `core.hooksPath`.
+- Hooks: `.vite-hooks/`, `lefthook.yml`, `.githooks/`, `core.hooksPath`.
 - `GLOSSARY.md`, `docs/`, and a `CONTEXT.md` when an older repo has one: domain names and the docs the commit skill audits.
 - Existing kit pieces: `.agents/skills/*-{commit,changelog,release}`, the release-please files, `release.yml`,
   `CHANGELOG.md`, `docs/releases.md`, and the `.claude/skills` symlink.
@@ -31,7 +31,7 @@ The plan carries one table of placeholder values with what each was inferred fro
 | `{{reader}}`         | Who reads the changelog                                                                                          | `user`; a library says `consumer`                 |
 | `{{check}}`          | CI-parity command, the pre-push pass                                                                             | `make check`, `npm run verify`, `deno task check` |
 | `{{lint_docs}}`      | Docs lint command; drop every line naming it when there is none                                                  | `make lint-docs`                                  |
-| `{{hooks}}`          | One sentence on what the hooks run                                                                               | "The pre-commit hook runs `verify:staged`."       |
+| `{{hooks}}`          | One sentence on what the hooks run                                                                               | "The pre-commit hook runs `vp staged`."         |
 | `{{e2e}}`            | When to run the end-to-end suite `{{check}}` leaves out, and to fix its specs in the same commit; drop when none | "Also run `deno task test:e2e` when ..."          |
 | `{{suffix}}`         | Sentence naming the commit-subject suffix; drop when there is none                                               | "End the subject with ` (#<issue>)`."             |
 | `{{scopes}}`         | Commit scopes from history                                                                                       | `ui`, `config`, `cli`                             |

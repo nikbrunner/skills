@@ -117,8 +117,9 @@ Applies when the app has authenticated routes.
 ## tooling
 
 - [ ] Each TanStack library in use has its devtools package where one exists, mounted only in development. (tooling.md)
-- [ ] TypeScript is strict with `verbatimModuleSyntax`, and type-only imports use `import type`. (tooling.md#typescript-and-eslint)
-- [ ] ESLint uses flat config with type-aware rules and bans `as` and non-null `!` outside tests; the only inline disables sit at untyped third-party boundaries with a reason. (tooling.md#typescript-and-eslint)
+- [ ] TypeScript is strict with `verbatimModuleSyntax`, and type-only imports use `import type`. (tooling.md#typescript-and-lint)
+- [ ] Vite+ is the toolchain: `vp fmt`, `vp lint` and `vp test` behind the `verify:*` scripts, with no Prettier or ESLint next to them. (tooling.md)
+- [ ] Oxlint runs type-aware and bans `as` and non-null `!` outside tests; the only inline disables sit at untyped third-party boundaries with a reason. (tooling.md#typescript-and-lint)
 - [ ] No library is hand-rebuilt where the stack's owner of that layer (Form, Query, Router, Table) is available. (tooling.md)
 
 ## npm-project
@@ -127,7 +128,7 @@ Applies when the repo has a `package.json`.
 
 - [ ] `"type": "module"`, a Node floor in `engines.node` or `.nvmrc`, and `private: true` only on unpublished packages. (npm-project.md#packagejson)
 - [ ] Check scripts are `verify:*` and only read; `format` and `lint` are the writers. (npm-project.md#scripts)
-- [ ] `verify:staged` and `verify:full` exist and the hooks call them. (npm-project.md#scripts)
+- [ ] `verify:full` exists and pre-push calls it. (npm-project.md#scripts)
 - [ ] A lockfile is committed and no dependency uses `latest`. (npm-project.md#dependencies)
 - [ ] The `#/` alias is wired through `package.json` `imports` and the TypeScript paths. (npm-project.md#packagejson)
 
@@ -154,11 +155,11 @@ Applies when the repo has a `package.json`.
 
 ## git
 
-- [ ] One hook manager is active: Lefthook in a repo under the maintainer's control, otherwise the repo's established tool; no lint-staged or nano-staged next to Lefthook. (git.md#control)
-- [ ] Hooks are installed: the Lefthook install or `git config --get core.hooksPath` points Git at the configured hooks, and the directory exists. (git.md#repository-config)
+- [ ] One hook manager is active: Vite+ hooks in a repo under the maintainer's control, Lefthook where Vite+ is absent, otherwise the repo's established tool; no lint-staged or nano-staged next to either. (git.md#control)
+- [ ] Hooks are installed: `vp hooks status`, the Lefthook install or `git config --get core.hooksPath` points Git at the configured hooks, and the directory exists. (git.md#repository-config)
 - [ ] `pull.rebase` is `true` and `merge.ff` is `only`, applied by a `git:config` script or the contributor setup. (git.md#repository-config)
-- [ ] Hooks only check: no hook runs a writer (`--write`, `--fix`) or re-stages files (`stage_fixed`, `git add`), unless an existing autofix hook was kept by agreement. (git.md#check-never-write)
-- [ ] Pre-commit runs `verify:staged` (or the repo's equivalent) and pre-push runs `verify:full`; CI runs the same full scope. (git.md#verify-scopes)
+- [ ] Hooks only check: no hook runs a writer (`vp fmt` without `--check`, `--write`, `--fix`) or re-stages files (`stage_fixed`, `git add`), unless an existing autofix hook was kept by agreement. (git.md#check-never-write)
+- [ ] Pre-commit runs `vp staged` (or the repo's equivalent) and pre-push runs `verify:full`; CI runs the same full scope. (git.md#verify-scopes)
 - [ ] Correctness checks block the commit; advisory checks such as docs drift warn and let it through. (git.md#verify-scopes)
 - [ ] Hooks call existing scripts or tasks, and every command they name exists. (git.md#verify-scopes)
 - [ ] A fresh clone installs the hooks through the project's setup, and the contributor instructions name it. (git.md#installation)

@@ -16,13 +16,14 @@ failure behavior, and file modifications. This inventory is the migration checkl
 
 ## Plan
 
-Map each check to a scope (`verify:staged` on pre-commit, `verify:full` on pre-push) and show the mapping with any
+Map each check to a scope (`vp staged` or the hook manager's staged runner on pre-commit, `verify:full` on pre-push) and show the mapping with any
 behavior change. A writer or re-staging step in an existing hook is a behavior change to propose, not to keep silently.
 During a migration, preserve coverage and make stage moves explicit. Report missing checks; adding a formatter, linter, or test framework is a separate decision.
 
 Read only the applicable method before implementation:
 
-- [Lefthook](hooks/lefthook.md): the default; includes CLI discovery, official references, migration, and optional AI hooks.
+- [Vite+](hooks/vite-plus.md): the default, in a repo whose toolchain is Vite+.
+- [Lefthook](hooks/lefthook.md): a repo without Vite+; includes CLI discovery, official references, migration, and optional AI hooks.
 - [Native shell hooks](hooks/bash.md): when the maintainer chooses native hooks or project conventions require them.
 - For another established tool, use its official documentation and preserve the project's approach.
 

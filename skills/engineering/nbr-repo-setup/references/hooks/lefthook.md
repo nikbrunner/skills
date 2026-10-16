@@ -29,13 +29,13 @@ Read the official [configuration reference](https://lefthook.dev/configuration/)
 
 Use the existing supported Lefthook config file, or create `lefthook.yml`. Give jobs meaningful names. Prefer existing scripts/tasks over reproducing their implementation in shell.
 
-Illustrative Node configuration, with the `verify:*` scripts of the `npm-project` topic in place and terminating without watch mode. The whole-repo `verify:staged` stays while it is fast; a slow repo switches to staged-file selection:
+Illustrative Node configuration, with the `verify:*` scripts of the `npm-project` topic in place and terminating without watch mode. Whole-repo format and lint checks stay while they are fast; a slow repo switches to staged-file selection:
 
 ```yaml
 pre-commit:
   jobs:
     - name: verify
-      run: npm run verify:staged
+      run: npm run verify:format && npm run verify:lint
 pre-push:
   jobs:
     - name: verify

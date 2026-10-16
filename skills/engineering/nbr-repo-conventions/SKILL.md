@@ -26,7 +26,7 @@ a deliberate deviation visible, not to reshape code that works.
 | [authentication](topics/authentication.md)       | Protecting routes, the current-user query, login and logout.                |
 | [testing](topics/testing.md)                     | Deciding what to test and where tests live.                                 |
 | [assets](topics/assets.md)                       | Adding images, icons, or other static files.                                |
-| [tooling](topics/tooling.md)                     | Choosing a library or tool, or configuring TypeScript and ESLint.           |
+| [tooling](topics/tooling.md)                     | Choosing a library or tool, or configuring TypeScript and lint.             |
 | [npm-project](topics/npm-project.md)             | Changing `package.json`, scripts, `.npmrc`, pins, or the Node floor.        |
 | [git](topics/git.md)                             | Hooks, Git config, or what runs on pre-commit and pre-push.                 |
 | [docs-structure](topics/docs-structure.md)       | Writing or reorganizing README, `docs/`, or recording a decision.           |

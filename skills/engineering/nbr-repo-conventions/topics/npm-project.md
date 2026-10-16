@@ -24,7 +24,6 @@ The same check has the same name in every repo. `verify:*` scripts only read; `f
 | `verify:typecheck` | Run TypeScript without emitting         |
 | `verify:tests`     | Run tests once                          |
 | `verify:knip`      | Check dead code and unused exports      |
-| `verify:staged`    | The pre-commit scope                    |
 | `verify:full`      | The CI and pre-push scope               |
 | `format`           | Rewrite formatting                      |
 | `lint`             | Rewrite fixable lint issues             |
