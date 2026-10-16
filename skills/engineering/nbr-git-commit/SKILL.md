@@ -1,6 +1,7 @@
 ---
 name: nbr-git-commit
 description: "Commit workflow: repo conventions resolved per field, selective staging down to single hunks, a review for stale docs, side effects and boy-scout fixes, the repo's checks, and an approval gate. Use for any commit. nbr-git-commit-buckets and nbr-git-commit-rebuild run its review and commit steps for several commits at once."
+compatibility: Requires the nbr-audit-docs and documentation-writer skills.
 argument-hint: "[optional message hint or scope hint]"
 user-invocable: true
 metadata:

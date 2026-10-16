@@ -5,6 +5,7 @@ description:
   docs, then write a plan that reads for a Product Owner and a Developer (prose per section, implementation and
   verification beneath it) and review it in Plannotator. Use when asked to plan a change, for every plan written in plan mode, and when asked to grill an idea,
   which stops after the grill."
+compatibility: Requires the nbr-repo-conventions and humanizer skills, and Plannotator, which ships the plannotator-annotate skill.
 ---
 
 # Plan a change

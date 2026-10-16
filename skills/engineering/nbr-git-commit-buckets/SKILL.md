@@ -1,6 +1,7 @@
 ---
 name: nbr-git-commit-buckets
 description: Sort a dirty working tree into atomic commits, split by hunk where needed, with docs, side-effect and boy-scout findings and one approval gate before anything is committed. Use when the user wants to clean up git status, commit scattered changes, or tidy the working tree into commits.
+compatibility: Requires the nbr-git-commit skill.
 argument-hint: "[optional scope, or 'commit without asking']"
 ---
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Link every skill in skills/ into one or more skill directories.
+# Link every skill in skills/<group>/ into one or more skill directories.
 # Usage: ./setup.sh [target-dir...]   (default: ~/.agents/skills)
 set -e
 
@@ -19,7 +19,7 @@ for target in "$@"; do
         fi
     done
 
-    for skill in "$repo_skills"/*/; do
+    for skill in "$repo_skills"/*/*/; do
         skill="${skill%/}"
         dest="$target/$(basename "$skill")"
 

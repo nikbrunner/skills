@@ -1,6 +1,7 @@
 ---
 name: nbr-changelog-things
 description: Use when the user asks to log today’s development work, commits, GitHub activity, or a changelog as completed Things items.
+compatibility: Requires Things 3 on macOS, the things CLI, the gh CLI and Node 22.6 or later.
 user-invocable: true
 ---
 

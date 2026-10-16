@@ -1,6 +1,7 @@
 ---
 name: nbr-git-commit-rebuild
 description: Rewrite a run of commits into clean atomic ones by resetting to a target and rebuilding through nbr-git-commit-buckets.
+compatibility: Requires the nbr-git-commit-buckets skill.
 argument-hint: "[optional target ref]"
 disable-model-invocation: true
 ---
