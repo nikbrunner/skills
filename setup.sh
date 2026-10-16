@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
-# Link every skill in skills/<group>/ into one or more skill directories.
+# Restore the third-party skills from skills-lock.json, then link them and every skill in
+# skills/<group>/ into one or more skill directories.
 # Usage: ./setup.sh [target-dir...]   (default: ~/.agents/skills)
 set -e
 
-repo_skills="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/skills"
+repo="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+(cd "$repo" && npx -y skills experimental_install -y >/dev/null)
 
 if [ $# -eq 0 ]; then
     set -- "$HOME/.agents/skills"
@@ -13,13 +16,14 @@ for target in "$@"; do
     mkdir -p "$target"
 
     for link in "$target"/*; do
-        if [ -L "$link" ] && [ ! -e "$link" ] && [[ "$(readlink "$link")" == "$repo_skills"/* ]]; then
+        if [ -L "$link" ] && [ ! -e "$link" ] && [[ "$(readlink "$link")" == "$repo"/* ]]; then
             rm "$link"
             echo "removed stale $link"
         fi
     done
 
-    for skill in "$repo_skills"/*/*/; do
+    for skill in "$repo"/skills/*/*/ "$repo"/.agents/skills/*/; do
+        [ -d "$skill" ] || continue
         skill="${skill%/}"
         dest="$target/$(basename "$skill")"
 

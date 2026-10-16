@@ -38,6 +38,16 @@ git clone https://github.com/nikbrunner/skills ~/repos/nikbrunner/skills
 
 `setup.sh` links every skill folder in `skills/<group>/` into each target, removes links whose skill no longer exists, and never replaces a real file or directory. Run it again after adding or removing a skill.
 
+### Third-party skills
+
+The third-party skills I use, including the ones these skills depend on, are recorded in `skills-lock.json`. `setup.sh` restores them into `.agents/skills/` (gitignored) and links them next to mine. Manage them from the repo root, then commit the lock:
+
+```sh
+npx skills add <source> --skill <name> -a codex   # -a codex installs into .agents/skills
+npx skills update -p
+npx skills remove <name>
+```
+
 ## License
 
 MIT
