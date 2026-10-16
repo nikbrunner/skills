@@ -32,15 +32,14 @@ To edit the skills and use them live, clone the repo and link them in:
 
 ```sh
 git clone https://github.com/nikbrunner/skills ~/repos/nikbrunner/skills
-~/repos/nikbrunner/skills/setup.sh                     # links into ~/.agents/skills
-~/repos/nikbrunner/skills/setup.sh ~/.claude/skills    # or any skill directories you name
+~/repos/nikbrunner/skills/install.sh
 ```
 
-`setup.sh` links every skill folder in `skills/<group>/` into each target, removes links whose skill no longer exists, and never replaces a real file or directory. Run it again after adding or removing a skill.
+`install.sh` links every skill folder in `skills/<group>/` into `~/.agents/skills`, and points `~/.claude/skills` and `~/.claude-work/skills` at that directory. It removes links whose skill no longer exists and never replaces a real file or directory. Run it again after adding or removing a skill.
 
 ### Third-party skills
 
-The third-party skills I use, including the ones these skills depend on, are recorded in `skills-lock.json`. `setup.sh` restores them into `.agents/skills/` (gitignored) and links them next to mine. Manage them from the repo root, then commit the lock:
+The third-party skills I use, including the ones these skills depend on, are recorded in `skills-lock.json`. `install.sh` restores them into `.agents/skills/` (gitignored) and links them next to mine. Manage them from the repo root, then commit the lock:
 
 ```sh
 npx skills add <source> --skill <name> -a codex   # -a codex installs into .agents/skills
