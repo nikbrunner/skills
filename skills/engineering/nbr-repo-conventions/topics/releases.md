@@ -1,6 +1,6 @@
-# Workflow
+# Releases
 
-The **workflow kit** is everything a repo needs for the agent-driven commit-to-release cycle. It stands on the agent setup
+The **release kit** is everything a repo needs for the agent-driven commit-to-release cycle. It stands on the agent setup
 ([`agent-tooling`](agent-tooling.md)) and Git hooks ([`git`](git.md)), and adds one pipeline in three project skills
 and four files:
 
@@ -13,7 +13,7 @@ and four files:
 | `.github/release-please-config.json`, `.release-please-manifest.json` | Version bumps and `CHANGELOG.md` sections from Conventional Commits |
 | `.github/workflows/release.yml`                                       | release-please, then attach any release artifacts                   |
 
-The kit needs a GitHub remote. `nbr-repo-setup workflow` builds it from templates.
+The kit needs a GitHub remote. `nbr-repo-setup releases` builds it from templates.
 
 ## Ownership
 

@@ -2,11 +2,11 @@
 name: nbr-repo-setup
 description:
   "Plan and, after explicit approval, set up a personal project's repo tooling from `nbr-repo-conventions`: agent setup,
-  Git hooks and config, npm scripts, the docs shape, the workflow kit (repo-commit, repo-changelog, repo-release
+  Git hooks and config, npm scripts, the docs shape, the release kit (repo-commit, repo-changelog, repo-release
   on release-please), and a dependency upgrade skill. Use when setting up a repo for agent work, Git hooks (pre-commit, pre-push, Vite+ hooks, Lefthook, migrating from Husky or
   native hooks), releases, a changelog, or dependency upgrades. Inspect first,
   propose concrete files, and write only what is approved. Use nbr-repo-audit for read-only checks."
-argument-hint: "[full | agent-tooling | git | npm-project | docs-structure | workflow | dependencies | free text]"
+argument-hint: "[full | agent-tooling | git | npm-project | docs-structure | releases | dependencies | free text]"
 ---
 
 # Set up a repo
@@ -31,7 +31,7 @@ piece only through an approved audit finding or an explicit request to change it
 6. Run `nbr-repo-audit <topic>` over what was written, and report each finding with its fix.
 
 `full` runs the topics in table order: agent setup first, since the project skills live in `.agents/skills/`; the npm
-scripts before the hooks that call them; hooks before the workflow kit, so the commit skill can describe what they run.
+scripts before the hooks that call them; hooks before the release kit, so the commit skill can describe what they run.
 
 | Topic           | Builds                                                           | Procedure                                                |
 | --------------- | ---------------------------------------------------------------- | -------------------------------------------------------- |
@@ -39,7 +39,7 @@ scripts before the hooks that call them; hooks before the workflow kit, so the c
 | `npm-project`   | `package.json` fields, `verify:*` scripts, `.npmrc`              | The topic itself                                         |
 | `git`           | Vite+, Lefthook or native hooks, `verify:full`, Git config       | [`references/hooks.md`](references/hooks.md)             |
 | `docs-structure`| README and `docs/` shape                                         | The topic itself                                         |
-| `workflow`      | `repo-commit`, `repo-changelog`, `repo-release`, release-please  | [`references/workflow.md`](references/workflow.md)       |
+| `releases`      | `repo-commit`, `repo-changelog`, `repo-release`, release-please  | [`references/releases.md`](references/releases.md)       |
 | `dependencies`  | `repo-dep-upgrades`                                              | [`references/dependencies.md`](references/dependencies.md) |
 
 The code topics of `nbr-repo-conventions` have no setup; `nbr-repo-audit` checks them.

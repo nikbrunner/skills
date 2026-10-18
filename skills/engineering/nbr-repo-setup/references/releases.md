@@ -1,6 +1,6 @@
-# Workflow kit setup
+# Release kit setup
 
-Builds the kit the `workflow` topic of `nbr-repo-conventions` describes.
+Builds the kit the `releases` topic of `nbr-repo-conventions` describes.
 
 ## Survey
 
@@ -64,4 +64,4 @@ Report what was written and the audit result, then name the two steps that remai
 
 - The repository setting that lets Actions open the release PR ([`pipeline.md`](pipeline.md#actions-permission)). Run it
   only after an explicit yes.
-- Committing the kit, through the new `repo-commit` skill, as `ci: add the workflow kit`.
+- Committing the kit, through the new `repo-commit` skill, as `ci: add the release kit`.

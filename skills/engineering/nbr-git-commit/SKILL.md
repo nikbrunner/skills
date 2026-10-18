@@ -25,7 +25,7 @@ Repo-local conventions win. Resolve each field on its own; the first source that
 | **Checks**    | project commit skill → `AGENTS.md` / `CLAUDE.md` → hook config (`.vite-hooks/`, `lefthook.yml`, `.githooks/`, `.husky/`; pre-push first) → a `check` or `verify` task in `package.json`, `Makefile`, `mise.toml` → the CI workflow → none |
 | **Docs list** | project commit skill → `AGENTS.md` / `CLAUDE.md` → every tracked `.md` file                                                                                                                                         |
 
-A **project commit skill** is any `SKILL.md` under `.agents/skills/` or `.claude/skills/` whose name or description is about committing (`repo-commit`, `<project>-commit`, `ship`). With two candidates, ask which one applies. A workflow-kit `repo-commit` holds the docs list in its section 3, the checks in section 4 and the grammar in section 5.
+A **project commit skill** is any `SKILL.md` under `.agents/skills/` or `.claude/skills/` whose name or description is about committing (`repo-commit`, `<project>-commit`, `ship`). With two candidates, ask which one applies. A release-kit `repo-commit` holds the docs list in its section 3, the checks in section 4 and the grammar in section 5.
 
 Grammar covers the whole message: type list, scope vocabulary, ticket-key placement (leading `[ABC-123]` vs. trailing `(ABC-123)`), body style. Pull the ticket key from the branch name when the grammar uses one. Where a project skill and the log disagree, the skill wins; mention the divergence.
 
