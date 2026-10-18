@@ -15,6 +15,8 @@ Collect, without asking:
 - `GLOSSARY.md`, `docs/`, and a `CONTEXT.md` when an older repo has one: domain names and the docs the commit skill audits.
 - Existing kit pieces: `.agents/skills/*-{commit,changelog,release}`, the release-please files, `release.yml`,
   `CHANGELOG.md`, `docs/releases.md`, and the `.claude/skills` symlink.
+- Whether the project has a visible surface (GUI, TUI, terminal output) a screenshot or clip can show. A visible surface
+  fills `{{release_assets}}`.
 - Declared commit grammar in `AGENTS.md`, `CLAUDE.md` (also `.claude/CLAUDE.md`), and `CONTRIBUTING.md`. A grammar that
   contradicts Conventional Commits stops the survey: show the conflict and ask before building the kit.
 
@@ -36,7 +38,7 @@ The plan carries one table of placeholder values with what each was inferred fro
 | `{{suffix}}`         | Sentence naming the commit-subject suffix; drop when there is none                                               | "End the subject with ` (#<issue>)`."             |
 | `{{scopes}}`         | Commit scopes from history                                                                                       | `ui`, `config`, `cli`                             |
 | `{{docs}}`           | Docs to check when config, commands, or terms change                                                             | `README.md`, `docs/config.md`                     |
-| `{{release_assets}}` | Release-time asset step for `repo-release` and `docs/releases.md`; drop when there is none                       | "Record the clips with `nbr-record-clip`"         |
+| `{{release_assets}}` | Release-time media step for `repo-release` and `docs/releases.md`; drop only without a visible surface           | "Record clips and stage `docs/assets/`"           |
 | `{{publish}}`        | Sentence on the publish job for `docs/releases.md`, see [`pipeline.md`](pipeline.md); drop when no artifacts     | "GoReleaser then builds the archives ..."         |
 | `{{verify_install}}` | Commands in `docs/releases.md` that install the release and print its version; drop when none                    | `npx <pkg>@<version> --version`                   |
 | release-please       | `release-type`, manifest version, `initial-version`, `bootstrap-sha`, artifacts                                  | `node`, `0.8.0`                                   |

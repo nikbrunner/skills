@@ -44,6 +44,8 @@ notes, so the changelog section and the release page match.
   line that is only `---`.
 - A release PR opened by internal-only commits stays unmerged until a user-facing change joins it. Closing it does not
   help: release-please reopens it on the next push.
+- A release that changes the visible surface carries its media in the Highlights, as the curated template's Screenshots
+  and clips section sets out. `repo-release` records it on the release branch before the merge.
 
 ## Project skills
 
