@@ -9,7 +9,8 @@
   ```
 
 - Use PNG when the image needs alpha or exact pixels.
-- Motion in docs and release notes is an animated WebP recorded with the `nbr-record-clip` skill.
+- Motion in docs and release notes is an animated WebP recorded with the `nbr-record-clip` skill. Its tape or capture
+  script and fixtures live in `docs/assets/tapes/`, so every clip can be recorded again.
 - In-app icons, logos, and line art are inline SVG components, so they inherit `currentColor` and follow the theme.
 
 These rules apply to assets added or touched. Existing files keep their format.

@@ -22,11 +22,14 @@ A clip is an animated WebP. Output WebP only: GitHub shows a repo-hosted mp4 as 
 ## Workflow
 
 1. Pick the lane and read its reference. Script the motion so each state holds about a second, long enough to read.
-2. Record into a fresh directory in the scratchpad; the lane's reference writes `<out>.webp`.
-3. Encode lossless first, as below. Flat UI and terminal text compress best that way. When the clip is too large, encode
+2. Keep the script in the repo, so the clip can be recorded again after a UI change: `docs/assets/tapes/<topic>.tape` (or
+   the browser lane's script), with shared fixtures such as a demo project or a minimal `init.lua` beside it in
+   `docs/assets/tapes/`. Paths in the script are relative to the repo root; only output and data dirs go to the scratchpad.
+3. Record into a fresh directory in the scratchpad; the lane's reference writes `<out>.webp`.
+4. Encode lossless first, as below. Flat UI and terminal text compress best that way. When the clip is too large, encode
    again with `-quality 80` in place of `-define webp:lossless=true` and keep the smaller file. Still too large: shorten the
    motion, or keep every second frame and encode with `1x<fps/2>`.
-4. Split the clip into frames in the scratchpad and look at four or five across it:
+5. Split the clip into frames in the scratchpad and look at four or five across it:
 
    ```sh
    magick <clip>.webp -coalesce <dir>/f%05d.png

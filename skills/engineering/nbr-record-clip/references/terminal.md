@@ -27,11 +27,14 @@ Sleep 1s
 - `Hide` and `Show` keep setup out of the clip.
 - A Neovim session loads the person's own config. To show one plugin alone, run `nvim --clean -u <init.lua>`.
 
-Run it from a fresh scratchpad directory:
+Run it from a fresh scratchpad directory, with the repo passed in as an env var so the tape holds no machine paths:
 
 ```sh
-vhs demo.tape
+cd <scratch> && REPO=<repo> vhs "$REPO/docs/assets/tapes/<topic>.tape"
 ```
+
+Inside the tape, refer to `$REPO/docs/assets/tapes/demo` and `$REPO/docs/assets/tapes/init.lua`, and set
+`XDG_DATA_HOME=$PWD/xdg`.
 
 ## Compose
 
