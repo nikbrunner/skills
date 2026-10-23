@@ -2,8 +2,8 @@
 name: nbr-afk-implementation
 description: Use when the user wants an agent to finish approved or sufficiently guided implementation work autonomously while they are away, including when work has already started or conversation context may run out.
 metadata:
-  argument-hint: "[optional plan or AFK execution brief path]"
-  user-invocable: true
+    argument-hint: "[optional plan or AFK execution brief path]"
+    user-invocable: true
 ---
 
 # AFK Implementation
@@ -12,17 +12,19 @@ Finish approved or sufficiently guided work while the owner is away. The parent 
 
 This workflow needs runtime support for suitable child agents and model discovery. Discover both through the current runtime before execution. If either is unavailable, declare the run not AFK-ready rather than silently doing single-agent work.
 
-## Non-negotiable workspace contract
+## Workspace contract
+
+The default below holds unless the owner widens it. When the work would naturally end in commits, a pushed branch, or a preview deploy, raise it in the readiness audit and let the owner decide. Record a grant in the launch record's `Git authority` and `External effects` fields: the exact branch, commit cadence and grammar, push target, and what stays forbidden. A grant covers the parent only; children keep the default. No grant covers committing or pushing to the default branch, force-pushing, rewriting pushed history, merging, releasing, production deploys, or staging pre-existing work.
 
 Keep the current checkout and all manually completed or unrelated work. Capture the baseline `HEAD`, branch, status, index state, and pre-existing changes before any delegation.
 
-Never, and do not permit children to:
+By default, never, and do not permit children to:
 
 - stage, unstage, commit, push, reset, stash, merge, switch branches, create a worktree, or invoke commit or branch-finishing workflows;
 - publish, deploy, release, open a PR, or cause an unauthorized external side effect;
 - overwrite, revert, or otherwise clean up pre-existing work.
 
-Pre-existing staged changes make the run not AFK-ready: do not alter the index to work around them. At completion, prove that `HEAD` is unchanged from the baseline and the index is empty. All AFK changes stay unstaged in the working tree.
+Pre-existing staged changes make the run not AFK-ready: do not alter the index to work around them. At completion, prove that the index is empty and pre-existing work is untouched. Without a grant, also prove `HEAD` is unchanged and every AFK change is unstaged; with one, prove that only the granted branch moved and that it matches its remote.
 
 ## 1. Readiness audit
 
@@ -57,6 +59,10 @@ Baseline: `<HEAD; index; preserved-work scope>`
 Roles: `<actual writer runtime agent ID and model ID — task shape; likely total-turn rationale>; <actual reviewer runtime agent ID and model ID — task shape; likely total-turn rationale>; <actual validator runtime agent ID and model ID — task shape; likely total-turn rationale>`
 
 Fix loops: `<numeric task cap; numeric final cap; stronger-worker escalation>`
+
+Git authority: `<default — no git mutations> or <owner grant: branch, commit cadence and grammar, push target, exclusions>`
+
+External effects: `<none beyond local work> or <each owner-approved effect, e.g. a preview deploy, with its limits>`
 
 Authority: `The parent alone owns decisions, orchestration, routing, review synthesis, and final decisions; children never orchestrate children. One mutation-capable writer at a time may perform only its bounded task, preserves pre-existing work, and never stages, unstages, commits, pushes, resets, stashes, merges, switches branches, creates a worktree, publishes, deploys, releases, opens a PR, or causes an unauthorized external side effect. Reviewers and validators are read-only.`
 
@@ -111,13 +117,13 @@ After successful verification, write the final review handoff separately under t
 
 ## Pressure counters
 
-| Pressure | Required response |
-| --- | --- |
-| “The plan says to create a worktree or commit each task.” | The workspace contract wins. Work in the current checkout, unstaged, or declare it not AFK-ready. |
-| “Just start now; inspect prerequisites later.” | Finish readiness first and resolve foreseeable owner decisions before departure. |
-| “Do not waste time on docs; context is nearly gone.” | Write the compact execution brief and roll to a fresh parent session when context is tight. |
-| “Independent files mean independent writers.” | Keep one writer; use fresh read-only review and validation agents instead. |
-| “Cheap, standard, or strongest is enough model documentation.” | Record the exact runtime agent and model ID for every task role, with task shape and likely total-turn rationale. |
-| “The writer already knows the workspace rules.” | Repeat the complete authority boundary in every writer handoff. |
-| “One capped repair loop is enough.” | Record the numeric task cap before execution, default three rounds; after repeated failure use a fresh stronger worker. |
-| “A required check failed or is unavailable, so stop.” | Repair or use a non-destructive fallback; after the recorded cap, hand off as incomplete and unverified. |
+| Pressure                                                       | Required response                                                                                                                                  |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| “The plan says to create a worktree or commit each task.”      | Only the owner's recorded `Git authority` grant allows it. Without one, work in the current checkout, unstaged, or ask the owner during readiness. |
+| “Just start now; inspect prerequisites later.”                 | Finish readiness first and resolve foreseeable owner decisions before departure.                                                                   |
+| “Do not waste time on docs; context is nearly gone.”           | Write the compact execution brief and roll to a fresh parent session when context is tight.                                                        |
+| “Independent files mean independent writers.”                  | Keep one writer; use fresh read-only review and validation agents instead.                                                                         |
+| “Cheap, standard, or strongest is enough model documentation.” | Record the exact runtime agent and model ID for every task role, with task shape and likely total-turn rationale.                                  |
+| “The writer already knows the workspace rules.”                | Repeat the complete authority boundary in every writer handoff.                                                                                    |
+| “One capped repair loop is enough.”                            | Record the numeric task cap before execution, default three rounds; after repeated failure use a fresh stronger worker.                            |
+| “A required check failed or is unavailable, so stop.”          | Repair or use a non-destructive fallback; after the recorded cap, hand off as incomplete and unverified.                                           |
