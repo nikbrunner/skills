@@ -1,6 +1,6 @@
 ---
 name: nbr-nvim-dev
-description: "My Neovim/Lua development workflow — doc lookup via local help files, headless API verification. Load when working on Neovim configs or plugins (lua specs, vim.pack, mini.*, LSP configs, vim.* APIs)."
+description: "A Neovim/Lua development workflow — doc lookup via local help files, headless API verification. Load when working on Neovim configs or plugins (lua specs, vim.pack, mini.*, LSP configs, vim.* APIs)."
 compatibility: Requires Neovim and ripgrep (rg).
 user-invocable: false
 metadata:
@@ -29,12 +29,12 @@ internals.
 
 ## Core Principle
 
-I run **Neovim nightly** (via `bob`) — APIs move between builds. Never trust memory for `vim.*` APIs, help tags, or plugin module names. Verify against the **locally installed docs** first; they always match the running version. Web docs describe stable and are often behind.
+Run `nvim --version` first: nightly APIs move between builds and drift from stable. Never trust memory for `vim.*` APIs, help tags, or plugin module names. Verify against the **locally installed docs** first; they always match the running version. Web docs describe stable and are often behind.
 
 ## Doc Lookup (local, always current)
 
 ```bash
-# Locate the runtime docs for the active nightly
+# Locate the runtime docs for the running install
 VIMRUNTIME=$(nvim --clean --headless --cmd 'lua io.write(vim.env.VIMRUNTIME)' --cmd 'q')
 
 # Find which help file documents a symbol, then read that section

@@ -9,8 +9,8 @@
     },
     {
       "id": 2,
-      "prompt": "/skill:nbr-dispatch claude Make popup borders configurable in the Black Atom Herdr themes. The Black Atom workspace is already open.",
-      "expected_output": "Infers one candidate from Git roots under ~/repos, asks the user to confirm its absolute checkout, matches only an open workspace with that exact checkout path, and starts Claude in a new pane in that workspace.",
+      "prompt": "/skill:nbr-dispatch claude Make popup borders configurable in the Acme Herdr themes. The Acme workspace is already open.",
+      "expected_output": "Infers one candidate from Git roots under the repos root, asks the user to confirm its absolute checkout, matches only an open workspace with that exact checkout path, and starts Claude in a new pane in that workspace.",
       "files": []
     },
     {

@@ -62,10 +62,10 @@ export function useCategory() {
 
 ## Advanced Case: Search Params + Storage Fallback
 
-From nbr.haus -- URL state with localStorage persistence for user preferences. More complex because it handles SSR hydration and DOM side effects.
+URL state with localStorage persistence for user preferences. More complex because it handles SSR hydration and DOM side effects.
 
 ```tsx
-// use-color-mode.ts (simplified from nbr.haus)
+// use-color-mode.ts
 import { useHydrated, useRouter, useSearch } from "@tanstack/react-router";
 import {
   colorModeSchema,

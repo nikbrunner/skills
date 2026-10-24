@@ -1,7 +1,7 @@
 ---
 name: nbr-plan
 description:
-  "Nik's planning flow and plan shape: grill the idea to shared understanding, optionally record decisions in the repo's
+  "A planning flow and plan shape: grill the idea to shared understanding, optionally record decisions in the repo's
   docs, then write a plan that reads for a Product Owner and a Developer (prose per section, implementation and
   verification beneath it) and review it in Plannotator. Use when asked to plan a change, for every plan written in plan mode, and when asked to grill an idea,
   which stops after the grill."

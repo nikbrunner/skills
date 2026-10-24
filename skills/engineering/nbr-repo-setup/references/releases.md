@@ -29,7 +29,7 @@ The plan carries one table of placeholder values with what each was inferred fro
 | Placeholder          | Meaning                                                                                                          | Example                                           |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
 | `{{project}}`        | Display name                                                                                                     | `my-cli`                                          |
-| `{{repo}}`           | `owner/name`                                                                                                     | `nikbrunner/my-cli`                               |
+| `{{repo}}`           | `owner/name`                                                                                                     | `owner/my-cli`                               |
 | `{{reader}}`         | Who reads the changelog                                                                                          | `user`; a library says `consumer`                 |
 | `{{check}}`          | CI-parity command, the pre-push pass                                                                             | `make check`, `npm run verify`, `deno task check` |
 | `{{lint_docs}}`      | Docs lint command; drop every line naming it when there is none                                                  | `make lint-docs`                                  |

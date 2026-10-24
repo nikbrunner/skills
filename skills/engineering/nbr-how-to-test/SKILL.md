@@ -1,6 +1,6 @@
 ---
 name: nbr-how-to-test
-description: "My black-box acceptance testing checklist — tailored end-user journeys, edge cases, and UX behavior in HOW_TO_TEST.md. Load when changes need human acceptance testing, manual QA instructions, or an end-user validation checklist."
+description: "A black-box acceptance testing checklist — tailored end-user journeys, edge cases, and UX behavior in HOW_TO_TEST.md. Load when changes need human acceptance testing, manual QA instructions, or an end-user validation checklist."
 argument-hint: "[optional: scope or user journey to emphasize]"
 metadata:
   argument-hint: "[optional: scope or user journey to emphasize]"

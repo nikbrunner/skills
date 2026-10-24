@@ -1,7 +1,7 @@
 ---
 name: nbr-repo-conventions
 description:
-  "Nik's conventions for personal projects, as topics: TypeScript, React, CSS, state, TanStack and the data boundary,
+  "Conventions for personal projects, as topics: TypeScript, React, CSS, state, TanStack and the data boundary,
   validation, authentication, testing, assets, tooling, npm projects, Git hooks, docs, agent tooling, the
   commit-to-release cycle, and dependency upgrades. Use whenever a task writes or reviews code, docs, or repo tooling in
   a personal project. Read only the topics that match."
@@ -10,7 +10,7 @@ user-invocable: false
 
 # Conventions
 
-These are Nik's defaults for personal projects. A project's stated, working choice wins: use a topic to fill a gap or to make
+These are defaults for personal projects. A project's stated, working choice wins: use a topic to fill a gap or to make
 a deliberate deviation visible, not to reshape code that works.
 
 ## Choose a topic

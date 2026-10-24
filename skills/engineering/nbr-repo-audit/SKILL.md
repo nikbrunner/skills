@@ -1,7 +1,7 @@
 ---
 name: nbr-repo-audit
 description:
-  "Audit a project against Nik's conventions (`nbr-repo-conventions`) without changing files: code topics, agent setup,
+  "Audit a project against the conventions in `nbr-repo-conventions` without changing files: code topics, agent setup,
   Git hooks, docs, the release kit and its pipeline, and dependency upgrades. Use for a project health check, a
   pre-refactor review, a drift check after setup, or one named topic. Reports broken, missing, and deviating pieces with
   evidence, then an ordered plan."

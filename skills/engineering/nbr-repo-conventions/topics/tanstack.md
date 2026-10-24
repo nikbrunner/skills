@@ -1,6 +1,6 @@
 # TanStack Ecosystem
 
-Entry point for working with TanStack libraries. This topic introduces the CLI for doc lookup and contains my personal patterns and preferences for Query and Form.
+Entry point for working with TanStack libraries. This topic introduces the CLI for doc lookup and contains patterns and preferences for Query and Form.
 
 ## TanStack CLI
 
@@ -80,7 +80,7 @@ See `tanstack/form-patterns.md` for detailed patterns and API reference.
 ## Workflow
 
 1. Identify which TanStack library is relevant to the task
-2. Check sub-documents for my preferences on Query or Form
+2. Check sub-documents for the preferences on Query or Form
 3. Use `tanstack search-docs` / `tanstack doc` to verify patterns against current docs before implementing
 4. For libraries without a dedicated sub-document (Router, Store, Start, Table, Virtual, etc.), rely on CLI docs alone
 

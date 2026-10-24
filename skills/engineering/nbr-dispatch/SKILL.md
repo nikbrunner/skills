@@ -35,13 +35,13 @@ test "${HERDR_ENV:-}" = 1 || {
 Establish an exact Git checkout before creating a pane or starting an agent.
 
 - When the brief says “here”, “this repository”, or otherwise clearly names the current checkout, use the current Git root as the candidate.
-- When it refers to another project, infer a candidate from Git repositories under `~/repos`. Include ordinary checkouts and linked worktrees, deduplicate their canonical Git roots, and use the brief and current session context to choose the best candidate.
+- When it refers to another project, infer a candidate from Git repositories under `repos_root`: the folder the user's agent instructions name for their checkouts, else `~/repos`. Include ordinary checkouts and linked worktrees, deduplicate their canonical Git roots, and use the brief and current session context to choose the best candidate.
 - A direct path in the brief is also a candidate.
 
 Use this inventory when another project needs to be inferred:
 
 ```bash
-find "$HOME/repos" \( -type d -name .git -prune -print \) -o \( -type f -name .git -print \) |
+find "$repos_root" \( -type d -name .git -prune -print \) -o \( -type f -name .git -print \) |
   while IFS= read -r git_entry; do
     git -C "$(dirname "$git_entry")" rev-parse --show-toplevel
   done | sort -u
@@ -54,7 +54,7 @@ target_repo=$(git -C "$candidate" rev-parse --show-toplevel)
 target_repo=$(cd -- "$target_repo" && pwd -P)
 ```
 
-Ask the user to confirm the resolved absolute target path in the current conversation. For example: “I resolved this to `/Users/nik/repos/acme/project`. Dispatch there?” Do this even for the current checkout, unless a calling skill passes a target the user already confirmed. If no candidate is clear or several candidates tie, ask one focused question for the path. Do not open a repository picker and do not create a pane from an unconfirmed inference.
+Ask the user to confirm the resolved absolute target path in the current conversation. For example: “I resolved this to `/home/you/code/acme/project`. Dispatch there?” Do this even for the current checkout, unless a calling skill passes a target the user already confirmed. If no candidate is clear or several candidates tie, ask one focused question for the path. Do not open a repository picker and do not create a pane from an unconfirmed inference.
 
 ## Create a worktree
 
