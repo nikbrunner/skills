@@ -8,6 +8,8 @@ compatibility: Requires Herdr.
 
 Start a fresh coding-agent session in the target repository's Herdr workspace. Invoke this skill explicitly as `/skill:nbr-dispatch`.
 
+When a session already runs in the target repository, ask the user whether to message it through `nbr-intercom` instead of starting a new one.
+
 ## Activation contract
 
 A user-supplied `<skill name="nbr-dispatch">...</skill>` definition followed by an affirmative task request activates this skill, even when the user does not repeat `/skill:nbr-dispatch`. Treat the supplied definition as routing instructions, not conversation context.
@@ -152,6 +154,12 @@ Remaining issues: <none or exact unresolved items>
 Suggested next step: <a recommendation or sensible options for continuing>
 ```
 
+When both this session and the child run Claude Code, the child reports back through cross-session messages. Take this session's name from the first line of `ListAgents` and add to the child prompt:
+
+```text
+Report back to the dispatching session <name> with SendMessage: one line when you start ("On it: <task>"), and the handoff when you finish.
+```
+
 Run these commands from the current pane. Parse every Herdr ID from JSON responses. Never guess IDs or rely on UI focus.
 
 ```bash
@@ -160,4 +168,4 @@ herdr agent start "$agent_name" --kind "$harness" --pane "$child_id"
 herdr agent prompt "$agent_name" "$child_prompt"
 ```
 
-Do not add `--wait`, wait for child completion, read child output, summarize its work, or close its pane. Return a short launch receipt with the confirmed repository, workspace, pane, agent name, and that the child will leave its handoff in its pane.
+Do not add `--wait`, wait for child completion, read child output, summarize its work, or close its pane. Return a short launch receipt with the confirmed repository, workspace, pane, agent name, and that the child will leave its handoff in its pane. When the child's messages arrive, pass each one to the user in a line or two.

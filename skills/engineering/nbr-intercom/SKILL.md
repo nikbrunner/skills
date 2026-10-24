@@ -21,7 +21,7 @@ A plain answer or status check, with nothing agreed and nobody holding a follow-
 
 `ListAgents` shows session names, not working directories. Match the repo by the name's prefix (`iter-nvim-be` runs in iter.nvim). When several names match, ask the user which one.
 
-When no session runs there, the message has no receiver. Tell the user, and offer `nbr-dispatch` when the work needs a fresh session in that repo.
+When no session runs there, the message has no receiver. Tell the user.
 
 ## Write the message
 
