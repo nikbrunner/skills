@@ -97,6 +97,16 @@ The reply to the report approves every bucket it names: commit them in a row wit
 
 For each approved bucket, in order, run nbr-git-commit's Commit section with the bucket as the approved paths. Stage hunks with `hunks.py stage`, whole files with `git add` / `git rm`. After each commit, also check that the remaining buckets' IDs still appear in `hunks.py list`; a missing one means a hook pulled it in, so stop and report before the next bucket.
 
+**Untracked files of later buckets.** Hook runners such as lefthook stash unstaged edits before running, but leave untracked files in place, so a later bucket's new test runs against this bucket's code and fails. When a later bucket holds untracked files, hide them for the commit:
+
+```sh
+git stash push --keep-index --include-untracked -m "buckets-hide-<n>"
+git commit ...
+git stash pop
+```
+
+Pop only when `git stash list` shows the `buckets-hide-<n>` entry on top.
+
 **Per-commit checks.** When the caller asks for them (`nbr-git-commit-rebuild` does), prove each commit on its own right after making it: hide everything uncommitted so the tree equals HEAD, run the checks, bring the rest back.
 
 ```sh
