@@ -36,6 +36,38 @@ cd <scratch> && REPO=<repo> vhs "$REPO/docs/assets/tapes/<topic>.tape"
 Inside the tape, refer to `$REPO/docs/assets/tapes/demo` and `$REPO/docs/assets/tapes/init.lua`, and set
 `XDG_DATA_HOME=$PWD/xdg`.
 
+## Theme and font
+
+Every clip uses the same font and themes, so all clips match: the font is TX-02 (Berkeley Mono, installed as `TX-02`),
+the themes are Black Atom Default Dark and Light, kept as VHS theme JSON in [`themes/`](../themes/). The tape sets neither.
+Each run prepends them, plus `CLIP_SCHEME` (`dark` or `light`) for the project's own fixtures to read, and records into its
+own directory.
+
+VHS falls back to another font without a warning, so stop first when TX-02 is missing. The check needs fontconfig
+(`brew install fontconfig` on macOS) and the hyphen escaped:
+
+```sh
+[ "$(fc-match -f '%{family}' 'TX\-02')" = TX-02 ] || echo "TX-02 is not installed"
+
+for scheme in dark light; do
+  mkdir <scratch>/$scheme && cd <scratch>/$scheme
+  {
+    printf 'Set Theme %s\n' "$(tr -d '\n' < <skill-dir>/themes/black-atom-default-$scheme.json)"
+    printf 'Set FontFamily "TX-02"\nEnv CLIP_SCHEME "%s"\n' $scheme
+    cat "$REPO/docs/assets/tapes/<topic>.tape"
+  } > run.tape
+  REPO=<repo> vhs run.tape
+done
+```
+
+The theme JSON comes from the Black Atom Ghostty adapter. Regenerate it from a Black Atom checkout when those themes change:
+
+```sh
+<skill-dir>/scripts/ghostty-to-vhs-theme.sh \
+  <black-atom>/adapters/ghostty/themes/default/black-atom-default-dark.conf "Black Atom Default Dark" \
+  > <skill-dir>/themes/black-atom-default-dark.json
+```
+
 ## Compose
 
 `frames/` holds two layers per frame, `frame-text-NNNNN.png` and `frame-cursor-NNNNN.png`, without padding. Overlay them and

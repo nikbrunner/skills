@@ -1,0 +1,23 @@
+{
+  "name": "Black Atom Default Light",
+  "black": "#0e1217",
+  "red": "#fb80aa",
+  "green": "#11a22f",
+  "yellow": "#f29520",
+  "blue": "#1c989e",
+  "magenta": "#fb4583",
+  "cyan": "#11a22f",
+  "white": "#757b81",
+  "brightBlack": "#43484e",
+  "brightRed": "#fb80aa",
+  "brightGreen": "#11a22f",
+  "brightYellow": "#f29520",
+  "brightBlue": "#1c989e",
+  "brightMagenta": "#6390fa",
+  "brightCyan": "#19b168",
+  "brightWhite": "#a8afb5",
+  "background": "#eff6fd",
+  "foreground": "#0e1217",
+  "selection": "#a8afb5",
+  "cursor": "#19b168"
+}

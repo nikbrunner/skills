@@ -36,7 +36,8 @@
   `fetchpriority="high"` and loads eagerly.
 - Use PNG when the image needs alpha or exact pixels.
 - Motion in docs and release notes is an animated WebP recorded with the `nbr-record-clip` skill. Its tape or capture
-  script and fixtures live in `docs/assets/tapes/`, so every clip can be recorded again.
+  script and fixtures live in `docs/assets/tapes/`, so every clip can be recorded again. A tape sets no theme or font:
+  `nbr-record-clip` applies TX-02 and Black Atom Default Dark and Light on every run.
 - In-app icons, logos, and line art are inline SVG components, so they inherit `currentColor` and follow the theme.
 
 ## Themed docs images

@@ -24,10 +24,11 @@ or builds. A check that needs more is Unverified, with the command that would se
 
 1. Resolve the scope. `full` audits every topic that applies to the repo:
    - Always: `agent-tooling`, `git`, `docs-structure`.
-   - By stack (`package.json`, file extensions, dependencies): the code topics, `validation`, `testing`, `assets`,
-     `tooling`, and `npm-project`.
-   - By presence: `authentication` when the app has authenticated routes, `releases` when the repo has a GitHub remote and
-     any kit piece, `dependencies` when a `repo-dep-upgrades` skill exists.
+   - By stack (`package.json`, file extensions, dependencies): the code topics, `validation`, `testing`, `tooling`,
+     and `npm-project`.
+   - By presence: `assets` when the README or `docs/` holds images or clips, `authentication` when the app has
+     authenticated routes, `releases` when the repo has a GitHub remote and any kit piece, `dependencies` when a
+     `repo-dep-upgrades` skill exists.
 
    The argument is free-form. Topic names (one or several) audit those topics; free text ("is the release pipeline
    healthy", "hooks and docs") maps to the topics it names, stated back in one line before dispatch; a path narrows the

@@ -124,6 +124,7 @@ Applies when the app has authenticated routes.
 - [ ] In-app icons and line art are inline SVG components using `currentColor`. (assets.md)
 - [ ] Motion in docs and release notes is animated WebP; a GIF or a video file referenced from Markdown is a finding. (assets.md)
 - [ ] Every animated WebP in the docs has its tape or capture script in `docs/assets/tapes/`. (assets.md)
+- [ ] No tape in `docs/assets/tapes/` sets `Theme` or `FontFamily`; the recording run supplies TX-02 and Black Atom Default. (assets.md)
 
 ## tooling
 
@@ -196,6 +197,7 @@ Applies when the repo has a GitHub remote and any kit piece exists. Shell checks
 - [ ] Release headings use release-please's format, no `## [Unreleased]` block or `---`-only line remains, and the docs lint passes on `*` bullets next to older `-` ones. (releases.md#changelog)
 - [ ] The newest `CHANGELOG.md` heading is the manifest version; an open release PR (`gh pr list --label "autorelease: pending"`) has `### Highlights` on its branch and matching PR notes, and is not opened by internal-only commits. (releases.md#changelog)
 - [ ] A project with a visible surface (GUI, TUI, or terminal output) has a media step in `repo-release/SKILL.md` that records or stages its screenshots and clips. (releases.md#changelog)
+- [ ] Highlights media is a `-dark`/`-light` pair behind a `prefers-color-scheme` `<picture>`, pinned to the release tag. (releases.md#changelog)
 - [ ] Each released version's GitHub Release notes (`gh release view v<version>`) match its `CHANGELOG.md` section. (releases.md#ownership)
 - [ ] Every commit on the default branch since the last tag is a Conventional Commit; the finding lists the hashes release-please will skip. (releases.md#commits)
 - [ ] Ticket or issue keys sit in a trailing subject suffix, never a leading `[KEY]`. (releases.md#commits)

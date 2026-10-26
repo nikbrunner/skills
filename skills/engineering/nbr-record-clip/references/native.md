@@ -29,3 +29,30 @@ ffmpeg -loglevel error -f avfoundation -framerate 60 -pixel_format bgr0 -capture
 
 Delete lead-in frames from `frames/`, then encode as in [`SKILL.md`](../SKILL.md#encode) with `<fps>` 60. Check frames through
 each transition. A stuttered capture jumps between neighbouring frames; record it again.
+
+## Capture with Cap
+
+`cap` records one window by its ID through ScreenCaptureKit, so the window may move and no crop or Retina math is needed.
+`cap doctor` confirms the permission.
+
+```sh
+cd <scratchpad-dir>
+cap record windows                       # id, owner, and bounds per window
+cap record start --window <id> --fps 60 --duration <seconds> --path clip.cap
+cap export clip.cap clip.mp4 --fps 60
+mkdir frames && ffmpeg -loglevel error -i clip.mp4 frames/f%05d.png
+```
+
+Encode the frames as above. The export is already lossy, so the WebP encode may as well be too (`-quality 80`).
+
+## Switch the scheme
+
+An app that follows the system appearance switches with it. Note the current setting, set the scheme for each recording,
+and set the noted value back at the end:
+
+```sh
+osascript -e 'tell application "System Events" to tell appearance preferences to get dark mode'
+osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true'
+```
+
+An app with its own theme setting switches there.
