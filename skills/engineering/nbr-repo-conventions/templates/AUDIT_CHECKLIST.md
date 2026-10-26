@@ -39,6 +39,14 @@ Each rule is a target state; classify every rule in a topic's block with `path:l
 - [ ] Every `useEffect` passes a named function expression, and its cleanup is a named function for the inverse action. (react/hooks-as-logic-layer.md#named-effects)
 - [ ] No `useEffect` matches one of the 13 cataloged anti-patterns; the listed legitimate uses are not findings. (react/no-use-effect-patterns.md)
 
+## html
+
+- [ ] Each page has one `<main>` and one `<h1>`; landmarks are elements, and a `<div role>` appears only where no element carries the role. (html.md#semantic-structure)
+- [ ] Actions are `<button>`, destinations are `<a href>`. (html.md#semantic-structure)
+- [ ] Disclosures, modals, and simple overlays use `<details>`, `<dialog>`, or `popover`; Base UI covers only widgets the platform lacks. (html.md#native-before-a-component)
+- [ ] Public pages render title, description, Open Graph tags, and JSON-LD from the route's `head()` on the server. (html.md#document-head)
+- [ ] Preloads cover only resources the parser cannot discover, at most a few per page. (html.md#resource-hints)
+
 ## css
 
 - [ ] Each component's style file sits next to it with the same base name (`button.module.css` beside `button.tsx`). (css.md#co-located-file-convention)
@@ -110,7 +118,9 @@ Applies when the app has authenticated routes.
 
 ## assets
 
-- [ ] Application images are imported from `src/assets/`; photographs are WebP with a long edge of 2000px or less. (assets.md)
+- [ ] Application images are imported from `src/assets/`; photographs are AVIF and WebP at 800 and 1600px, rendered through `<picture>` with `srcSet` and `sizes`. (assets.md)
+- [ ] Every `<img>` in the app has `width` and `height`; below-the-fold images load lazily, and only the largest paint has `fetchpriority="high"`. (assets.md)
+- [ ] Banners, screenshots, and clips in the README and docs come as a `-dark`/`-light` pair behind a `prefers-color-scheme` `<picture>`. (assets.md#themed-docs-images)
 - [ ] In-app icons and line art are inline SVG components using `currentColor`. (assets.md)
 - [ ] Motion in docs and release notes is animated WebP; a GIF or a video file referenced from Markdown is a finding. (assets.md)
 - [ ] Every animated WebP in the docs has its tape or capture script in `docs/assets/tapes/`. (assets.md)

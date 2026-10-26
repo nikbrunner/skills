@@ -6,7 +6,7 @@ description:
   pre-refactor review, a drift check after setup, or one named topic. Reports broken, missing, and deviating pieces with
   evidence, then an ordered plan."
 argument-hint:
-  "[full | releases | git | npm-project | docs-structure | agent-tooling | dependencies | typescript | react | css | state | tanstack | validation | authentication | testing | assets | tooling | free text] [path]"
+  "[full | releases | git | npm-project | docs-structure | agent-tooling | dependencies | typescript | react | html | css | state | tanstack | validation | authentication | testing | assets | tooling | free text] [path]"
 allowed-tools: Read, Glob, Grep, Bash(git log:*), Bash(git tag:*), Bash(git config --get:*), Bash(gh repo view:*), Bash(gh release view:*), Bash(gh pr list:*)
 ---
 
