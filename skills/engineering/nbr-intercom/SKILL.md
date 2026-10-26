@@ -21,7 +21,7 @@ A plain answer or status check, with nothing agreed and nobody holding a follow-
 
 `ListAgents` shows session names, not working directories. Match the repo by the name's prefix (`iter-nvim-be` runs in iter.nvim). When several names match, ask the user which one.
 
-A session can run without appearing in `ListAgents`. When no name matches and `HERDR_ENV=1`, look in Herdr: `herdr agent list` gives each agent's `cwd` and `pane_id`. Send with `herdr agent prompt <pane_id> "<message>" --wait --timeout 180000`, then take the reply from `herdr agent read <pane_id> --source recent-unwrapped --lines 80`. That reply arrives through the read, not as a new message, so stay in the turn for it.
+`ListAgents` only shows sessions under the same Claude config dir, so a session started with another `CLAUDE_CONFIG_DIR` (such as `ccw`) is missing there. When no name matches and `HERDR_ENV=1`, look in Herdr: `herdr agent list` gives each agent's `cwd` and `pane_id`. Send with `herdr agent prompt <pane_id> "<message>" --wait --timeout 180000`, then take the reply from `herdr agent read <pane_id> --source recent-unwrapped --lines 80`. That reply arrives through the read, not as a new message, so stay in the turn for it.
 
 When neither lists a session there, the message has no receiver. Tell the user.
 
