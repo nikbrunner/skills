@@ -136,6 +136,7 @@ Work directly in the selected repository and in this pane.
 Do not launch reviewers or other agents.
 Do not invoke Pi subagent tools, workflow orchestration, worktrees, or Herdr commands.
 Do not inspect or switch to another repository.
+Never push to the default branch; changes reach it through a pull request.
 Follow directly applicable task skills in this pane; ignore unrelated skills.
 Pre-existing changes: <clean, or exact status summary>
 ```
@@ -167,5 +168,7 @@ agent_name="dispatch-$(date +%s)"
 herdr agent start "$agent_name" --kind "$harness" --pane "$child_id"
 herdr agent prompt "$agent_name" "$child_prompt"
 ```
+
+A pane whose shell is still starting, or still running a command sent with `herdr pane run`, makes `agent start` fail with `agent_pane_busy`. Wait a second and retry, up to three times, before reporting it blocked.
 
 Do not add `--wait`, wait for child completion, read child output, summarize its work, or close its pane. Return a short launch receipt with the confirmed repository, workspace, pane, agent name, and that the child will leave its handoff in its pane. When the child's messages arrive, pass each one to the user in a line or two.
