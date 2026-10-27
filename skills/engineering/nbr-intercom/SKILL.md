@@ -21,7 +21,7 @@ A plain answer or status check, with nothing agreed and nobody holding a follow-
 
 `ListAgents` shows session names, not working directories. Match the repo by the name's prefix (`iter-nvim-be` runs in iter.nvim). When several names match, ask the user which one.
 
-`ListAgents` only shows sessions under the same Claude config dir, so a session started with another `CLAUDE_CONFIG_DIR` (such as `ccw`) is missing there. When no name matches and `HERDR_ENV=1`, look in Herdr: `herdr agent list` gives each agent's `cwd` and `pane_id`. Send with `herdr agent prompt <pane_id> "<message>" --wait --timeout 180000`, then take the reply from `herdr agent read <pane_id> --source recent-unwrapped --lines 80`. That reply arrives through the read, not as a new message, so stay in the turn for it. Tell the user in one line that the peer likely runs under another Claude config dir.
+`ListAgents` only shows sessions under the same Claude config dir, so a session started with another `CLAUDE_CONFIG_DIR` (such as `ccw`) is missing there. When no name matches and `HERDR_ENV=1`, look in Herdr. A Herdr session only lists its own agents, so check every running one: `herdr session list`, then `herdr --session <name> agent list` for each, matching on `cwd`. Send with `herdr --session <name> agent prompt <pane_id> "<message>" --wait --timeout 180000`, then take the reply from `herdr --session <name> agent read <pane_id> --source recent-unwrapped --lines 80`. That reply arrives through the read, not as a new message, so stay in the turn for it. Tell the user in one line which Herdr session and Claude config dir the peer runs under.
 
 When neither lists a session there, the message has no receiver. Tell the user.
 
