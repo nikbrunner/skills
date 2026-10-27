@@ -197,6 +197,7 @@ Applies when the repo has a GitHub remote and any kit piece exists. Shell checks
 - [ ] Release headings use release-please's format, no `## [Unreleased]` block or `---`-only line remains, and the docs lint passes on `*` bullets next to older `-` ones. (releases.md#changelog)
 - [ ] The newest `CHANGELOG.md` heading is the manifest version; an open release PR (`gh pr list --label "autorelease: pending"`) has `### Highlights` on its branch and matching PR notes, and is not opened by internal-only commits. (releases.md#changelog)
 - [ ] A project with a visible surface (GUI, TUI, or terminal output) has a media step in `repo-release/SKILL.md` that records or stages its screenshots and clips. (releases.md#changelog)
+- [ ] A project with a visible surface has a hero clip pair at the top of its README under `docs/assets/readme/`, and it shows the current main view. (assets.md#themed-docs-images)
 - [ ] Highlights media is a `-dark`/`-light` pair behind a `prefers-color-scheme` `<picture>`, pinned to the release tag. (releases.md#changelog)
 - [ ] Each released version's GitHub Release notes (`gh release view v<version>`) match its `CHANGELOG.md` section. (releases.md#ownership)
 - [ ] Every commit on the default branch since the last tag is a Conventional Commit; the finding lists the hashes release-please will skip. (releases.md#commits)

@@ -58,6 +58,10 @@ Banners, screenshots, and clips in a README, the docs, and release notes come as
 Both files show the same content in the project's dark and light theme. Change one, record or export the other in the same
 commit.
 
+A project with a visible surface opens its README with a hero clip pair of its main view, stored under
+`docs/assets/readme/` and referenced by relative path, so it follows `main`. Release notes keep their own pinned copies
+under `docs/assets/changelog/`.
+
 These rules apply to assets added or touched. Existing files keep their format.
 
 ## Sources of Truth

@@ -44,6 +44,18 @@ scheme, as the `assets` topic in `nbr-repo-conventions` describes. Each lane's r
    The clip is done when, in both files, the sampled frames show only the subject in that file's scheme, every state from
    step 1 appears in order, and the file is at most 2 MB.
 
+## Where a clip goes
+
+A clip has two possible homes, and every new clip is checked against both:
+
+- **Release notes** show a moment in time. The pair lives at `docs/assets/changelog/<version>-<topic>-{dark,light}.webp`
+  and is referenced by a URL pinned to the release tag, so it keeps showing that release after the UI moves on.
+- **The README** shows the project as it is now. The pair lives at `docs/assets/readme/<topic>-{dark,light}.webp`, is
+  referenced by relative path so it follows `main`, and is replaced whenever the behavior it shows changes.
+
+A clip recorded for a release that also shows what the README describes gets a copy in both places. A README clip whose
+behavior a release changed is recorded again in the same release.
+
 ## Encode
 
 Every lane ends in this command, with `<fps>` matching the capture:
