@@ -32,6 +32,18 @@ deviation names the baseline, the local choice, and why it exists.
 - The current situation. History belongs in commits and issues.
 - Examples a reader could adapt, never placeholder prose.
 
+## Architecture docs
+
+An architecture page is read for its shape, so diagrams and tables carry it and prose stays short.
+
+- A Mermaid diagram for anything that moves or branches: the runtime flow as a `flowchart`, a handshake between
+  processes as a `sequenceDiagram`, a classification or state as a decision `flowchart`.
+- A table for lookup facts: commands, state files, keys, config, what each action does.
+- Prose of one or two sentences per section, for the reason behind a design or a constraint no diagram shows.
+- A paragraph past about four sentences is a table, a list, or a diagram waiting to happen.
+- Backticks only for what a reader would type or open: commands, file names, keys, env vars, code identifiers. Domain
+  terms stay plain text.
+
 ## Staleness
 
 When a change makes a doc inaccurate, the doc is updated in the same commit. `nbr-git-commit` runs `nbr-audit-docs` over
