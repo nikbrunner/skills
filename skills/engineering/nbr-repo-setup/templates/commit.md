@@ -71,7 +71,7 @@ and lists the subject in the release's `CHANGELOG.md` section:
 {{suffix}}
 
 - `feat` for new {{reader}}-facing behavior, `fix` for a {{reader}}-facing bug fix. Both trigger a release.
-- `docs`, `refactor`, `perf`, `test`, `ci`, `chore` for the rest. Only `docs`, `refactor`, and `perf` count toward a release.
+- `docs`, `refactor`, `perf`, `test`, `build`, `ci`, `chore` for the rest. `build(deps)` is for dependency upgrades. Only `docs`, `refactor`, and `perf` count toward a release.
 - `docs` is for {{reader}}-facing documentation. Agent skills, `AGENTS.md`, and maintainer-only docs are `chore`, so they
   never open a release on their own.
 - The scope is the area, as in recent history: {{scopes}}. Omit it when the change spans areas.

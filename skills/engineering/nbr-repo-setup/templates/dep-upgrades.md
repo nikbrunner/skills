@@ -97,10 +97,12 @@ Upgraded list, deprecation warnings, new features, skipped deps.
 
 ### Rust (Cargo)
 
-| Placeholder        | Value             |
-| ------------------ | ----------------- |
-| `package_manager`  | Cargo             |
-| `lock_file`        | Cargo.lock        |
-| `outdated_command` | `cargo outdated`  |
-| `upgrade_command`  | `cargo update -p` |
-| `commit_prefix`    | `build(deps):`    |
+| Placeholder        | Value                              |
+| ------------------ | ---------------------------------- |
+| `package_manager`  | Cargo                              |
+| `lock_file`        | Cargo.lock                         |
+| `outdated_command` | `cargo update --dry-run --verbose` |
+| `upgrade_command`  | `cargo update -p`                  |
+| `commit_prefix`    | `build(deps):`                     |
+
+`cargo update --dry-run --verbose` needs no extra install; `Unchanged ... (available: ...)` marks an upgrade outside the `Cargo.toml` range. `cargo update -p` stays inside that range, so a major upgrade raises the requirement in `Cargo.toml` first.
