@@ -28,6 +28,31 @@ Theme and color mode sit on that line and go either way. The deciding question i
 yes puts it in the URL with storage as fallback (`state/url-state-patterns.md`), no keeps it a persisted per-user preference
 in the client store.
 
+## State Shape
+
+- **One status, not exclusive booleans (any version).** `status: "idle" | "loading" | "error"` instead of `isLoading`
+  and `isError` that can both be true. Merge state variables that always change together.
+- **Reducers are pure (any version).** No requests, toasts, or timers inside a reducer. Dispatch one action per user
+  interaction, from the event handler.
+- **Slow renders (React 18+).** Keep text input state out of a transition. When a slow list follows a prop or hook
+  value, render it from `useDeferredValue(value)`; the input stays responsive.
+
+Sources: https://react.dev/learn/choosing-the-state-structure,
+https://react.dev/learn/extracting-state-logic-into-a-reducer, https://react.dev/reference/react/useDeferredValue
+
+## Fallbacks Without TanStack
+
+TanStack Form and Query are the default. A project without them uses React's own tools:
+
+- **Forms (React 19+):** `<form action={fn}>` needs no `preventDefault` and resets uncontrolled fields on success. Read
+  `useFormStatus` only in a child of the form. `useActionState` holds the result; dispatch it manually only inside an
+  Action or `startTransition`.
+- **Optimistic updates (React 19+):** `useOptimistic`, with the setter called only inside an Action. Once the save
+  succeeds, the parent's value is the truth again.
+
+Sources: https://react.dev/reference/react-dom/components/form, https://react.dev/reference/react/useActionState,
+https://react.dev/reference/react/useOptimistic
+
 ## Client State Libraries
 
 A client store is the last resort: most state belongs in the URL, the server cache, a component, or a Context subtree.

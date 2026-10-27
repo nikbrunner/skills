@@ -21,23 +21,47 @@ Each rule is a target state; classify every rule in a topic's block with `path:l
 
 ## react
 
-- [ ] Styles are imported only by Dumb Components and Layout Components; Partials have no style file. (react.md#core-principles)
-- [ ] Containers and route components carry no styling beyond small layout utility classes. (react.md#core-principles)
+### Composition — `react/composition`
+
+- [ ] Styles are imported only by Dumb Components and Layout Components; Partials have no style file. (react/composition.md#core-principles)
+- [ ] Containers and route components carry no styling beyond small layout utility classes. (react/composition.md#core-principles)
+- [ ] When the project has i18n, components receive localized text as props instead of hardcoding strings. (react/composition.md#core-principles)
+- [ ] In route-based apps the route component is the container, with no `*Container` wrapper in between; standalone containers are named `*Container`. (react/composition.md#routes-as-containers)
+- [ ] No component is configured through a pile of boolean props where composing parts would do. (react/composition.md#compose-dont-configure)
+
+### Component patterns — `react/component-patterns`
+
 - [ ] Dumb Components receive data and callbacks as props and never call `useQuery`, fetch, or read a store. (react/component-patterns.md#anti-patterns)
-- [ ] When the project has i18n, components receive localized text as props instead of hardcoding strings. (react.md#core-principles)
 - [ ] Each role's root element carries its attribute: `data-component`, `data-partial`, `data-layout`, or `data-container`. (react/component-patterns.md#data-attributes)
-- [ ] In route-based apps the route component is the container, with no `*Container` wrapper in between; standalone containers are named `*Container`. (react.md#routes-as-containers)
-- [ ] Containers delegate non-rendering logic beyond about 10 lines to a hook named after its domain topic (`useUserProfile`). (react/hooks-as-logic-layer.md#when-to-extract-a-hook)
 - [ ] No props are forwarded unused through 3 or more levels. (react/component-patterns.md#broad-vs-deep-split)
-- [ ] No component is configured through a pile of boolean props where composing parts would do. (react.md#compose-dont-configure)
+- [ ] Render is pure: no component mutates props, state, context, or a value created before render. (react/component-patterns.md#render-rules)
+- [ ] No component is defined inside another component. (react/component-patterns.md#render-rules)
+- [ ] No `ref.current` is read or written during render, except a lazy init. (react/component-patterns.md#render-rules)
+- [ ] In React 19+, components take `ref` as a prop; no new `forwardRef`. (react/component-patterns.md#render-rules)
+- [ ] Accessibility ids come from `useId` (React 18+), never from hardcoded strings; `useId` is never a list key. (react/component-patterns.md#render-rules)
+- [ ] Error boundaries wrap UI units, and handler or async errors are handled where they happen. (react/component-patterns.md#render-rules)
+- [ ] With the React Compiler on, `useMemo`, `useCallback`, and `React.memo` appear only for a measured case. (react/component-patterns.md#render-rules)
+
+### Hooks — `react/hooks-as-logic-layer`
+
+- [ ] Containers delegate non-rendering logic beyond about 10 lines to a hook named after its domain topic (`useUserProfile`). (react/hooks-as-logic-layer.md#when-to-extract-a-hook)
+- [ ] Only functions that call a hook carry the `use` prefix, and no `useMount`/`useEffectOnce` lifecycle wrappers exist. (react/hooks-as-logic-layer.md#what-a-custom-hook-is)
+
+### Effects — `react/effects`
+
+- [ ] Every `useEffect` passes a named function expression, and its cleanup is a named function for the inverse action. (react/effects.md#named-effects)
+- [ ] No effect depends on an object or function created during render. (react/effects.md#dependencies)
+- [ ] No `useEffect` matches one of the 14 cataloged anti-patterns; the listed legitimate uses are not findings. (react/effects.md#anti-patterns)
+- [ ] An effect never lists, mirrors in a ref, or lint-suppresses a value it only reads when something happens; in React 19.2+ that logic is a `useEffectEvent` called only from inside the effect. (react/effects.md#14-non-reactive-value-re-runs-the-effect)
+
+### Folder structure — `react/folder-structure`
+
 - [ ] `src/` follows technical separation: `components/`, `containers/`, `partials/`, `hooks/`, `api/`, `lib/`, `types/`. (react/folder-structure.md#default-technical-separation)
 - [ ] `hooks/` holds UI utilities and shared event hooks only, with no TanStack Query and no server state. (react/folder-structure.md#hooks-vs-api)
 - [ ] Files and folders are kebab-case and named after the component; a component with parts, styles, or tests has a folder (`button/button.tsx`, `button.module.css`) with an `index.ts` that only re-exports it, and a one-file component stays a file. (react/folder-structure.md#naming-conventions)
 - [ ] Imports use `./` for siblings and the `#/` alias elsewhere, with no `../`. (react/folder-structure.md#imports)
 - [ ] Directory name casing is consistent across the project. (react/folder-structure.md#naming-conventions)
 - [ ] A hook used by one component sits in that component's folder; no non-route files sit in route directories. (react/folder-structure.md#co-located-hooks)
-- [ ] Every `useEffect` passes a named function expression, and its cleanup is a named function for the inverse action. (react/hooks-as-logic-layer.md#named-effects)
-- [ ] No `useEffect` matches one of the 13 cataloged anti-patterns; the listed legitimate uses are not findings. (react/no-use-effect-patterns.md)
 
 ## html
 
@@ -69,6 +93,9 @@ Each rule is a target state; classify every rule in a topic's block with `path:l
 - [ ] State scoped to a subtree that resets when the user leaves lives in a React Context provider, without manual reset logic. (state/state-separation.md#react-context-as-scoped-state)
 - [ ] State used by a single component is `useState` in that component, not a store entry. (state.md#decision-flow)
 - [ ] A search param read by several components is wrapped in one hook (`useCategory`) built on `useSearch({ strict: false })`. (state/url-state-patterns.md#encapsulating-in-a-hook)
+- [ ] Mutually exclusive states are one `status` value, not several booleans that can both be true. (state.md#state-shape)
+- [ ] Reducers are pure (no requests, toasts, or timers) and actions are dispatched from event handlers. (state.md#state-shape)
+- [ ] Without TanStack Form or Query, forms use `<form action>`/`useActionState` and optimistic updates use `useOptimistic` (React 19+), each called only inside an Action. (state.md#fallbacks-without-tanstack)
 - [ ] The URL carries no sensitive data and no high-frequency values. (state/url-state-patterns.md#when-not-to-use-this-pattern)
 
 ## tanstack
@@ -81,7 +108,7 @@ Each rule is a target state; classify every rule in a topic's block with `path:l
 - [ ] Arrays and objects derived from `query.data` inside hooks are wrapped in `useMemo`. (tanstack/query-patterns.md#render-optimization-dont-spread-do-memoize)
 - [ ] Query hooks that accept options type them as `Omit<..., "queryKey" | "queryFn">` and pass them through. (tanstack.md#key-patterns)
 - [ ] When route loaders prefetch, `queryOptions`/`mutationOptions` factories live in per-entity files, hooks are thin wrappers around them, and loaders call `queryClient.query({ ...factory(), staleTime: "static" })`, with no `ensureQueryData` or `fetchQuery`. (tanstack/query-patterns.md#entity-file-the-reusable-layer)
-- [ ] Route components read loader-prefetched data with `useSuspenseQuery`. (react.md#routes-as-containers)
+- [ ] Route components read loader-prefetched data with `useSuspenseQuery`. (react/composition.md#routes-as-containers)
 - [ ] The fetch wrapper returns `unknown`, and every `queryFn`/`mutationFn` parses the response with the topic's schema. (tanstack.md#data-boundary)
 - [ ] Failed requests surface as an `ApiError` with a machine-readable code. (tanstack.md#data-boundary)
 - [ ] Query factories are named `get*` and mutation factories are bare verbs, with no topic prefix or `Options` suffix. (tanstack.md#data-boundary)

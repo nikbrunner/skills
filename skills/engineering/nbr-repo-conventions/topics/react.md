@@ -1,58 +1,18 @@
-# React Component Architecture
+# React
 
-## The 4 Roles
+Components split into roles: dumb components and layouts own the look, containers and routes own the data. Read the
+subtopic that matches the task.
 
-| Role                 | Purpose                            | Has Styling?          | Fetches Data?   |
-| -------------------- | ---------------------------------- | --------------------- | --------------- |
-| **Dumb Component**   | How things look                    | **Yes**               | No              |
-| **Smart Container**  | How things work                    | No (layout utils ok)  | Yes (via hooks) |
-| **Partial**          | Reusable composition of components | **No**                | Light logic ok  |
-| **Layout Component** | Structural arrangement             | **Yes (layout only)** | No              |
+| Subtopic                                              | Read when                                                           |
+| ----------------------------------------------------- | ------------------------------------------------------------------- |
+| [composition](react/composition.md)                   | Deciding a component's role, or composing parts.                    |
+| [component-patterns](react/component-patterns.md)     | Writing a component of a given role, or checking anti-patterns.     |
+| [hooks-as-logic-layer](react/hooks-as-logic-layer.md) | Moving logic out of a container into a hook.                        |
+| [effects](react/effects.md)                           | Writing or reviewing `useEffect`, or auditing a codebase's effects. |
+| [folder-structure](react/folder-structure.md)         | Adding files, folders, or imports.                                  |
+| [component-libraries](react/component-libraries.md)   | Choosing Base UI, ShadCN, or Mantine.                               |
 
-## Core Principles
-
-- **Styling lives exclusively in Dumb Components and Layout Components -- nowhere else.**
-- Partials and Containers contain zero styling. If a Partial needs layout, extract a Layout Component.
-- Components are "dumb" -- no data processing, no hardcoded values, no fetching
-- Components know nothing about other components (unless they inherently belong together)
-- Props should be simple data types where possible
-- Localized text is passed as props -- no hardcoded strings in components (unless no i18n exists)
-- Small utility classes for one-off layout adjustments in containers are acceptable
-
-## Partials
-
-A Partial is a **pure composition** of Dumb Components and Layout Components with light logic -- zero styling of its own. Reusable or extracted because it "feels right" as a unit.
-
-Example: a `UserProfileHeader` composing `Avatar` + `UserName` + `EditButton` with click handler wiring. If the partial needs a wrapper with flex layout, that wrapper is a Layout Component (`Stack`, `Row`, `ExampleSection`, etc.), not an inline style on the partial.
-
-**Red flag:** A partial with a CSS file. This almost always means either (a) the styled element should be its own Dumb Component, or (b) the layout wrapper should be a Layout Component.
-
-## Routes as Containers
-
-In route-based architectures (TanStack Start, Next.js, etc.), the **route component IS the container**. Data fetching happens in loaders, orchestration in the route component, and it renders partials/components. A separate `*Container` wrapper is redundant in these setups.
-
-- Route loaders read the cache with `queryClient.query({ ...factory(), staleTime: "static" })`
-- Route components use `useSuspenseQuery` for guaranteed data
-- Route components compose partials, pass data down, wire callbacks
-
-Standalone `*Container` components still make sense for non-route-level orchestration (e.g., a modal that fetches its own data, a widget embedded in a larger page).
-
-## Compose, Don't Configure
-
-Compose small parts instead of one component configured through many boolean props. Shared state lifts to the nearest
-common parent.
-
-## Data Flow
-
-Fetching and data processing happen in Containers (or Routes), Hooks, or Partials -- never in Dumb Components. Containers are orchestrators that delegate complex logic to topic-specific hooks.
-
-## References
-
-- For component examples and anti-patterns, see `react/component-patterns.md`
-- For folder structure conventions, see `react/folder-structure.md`
-- For hook patterns, see `react/hooks-as-logic-layer.md`
-- For component library choices (Base UI, ShadCN, Mantine), see `react/component-libraries.md`
-- For styling conventions and CSS approach, see the `css` topic
+State placement lives in the `state` topic, styling in the `css` topic.
 
 ## Sources of Truth
 
@@ -63,34 +23,3 @@ Fetching and data processing happen in Containers (or Routes), Hooks, or Partial
 
 - Dan Abramov: Smart and Dumb Components (original concept)
 - Jake Trent: Broad vs Deep Split
-
----
-
-## useEffect Audit
-
-Scan a React codebase for unnecessary or misused `useEffect` calls. Reference: https://react.dev/learn/you-might-not-need-an-effect
-
-### Workflow
-
-1. **Find all useEffect usages.** Grep for `useEffect` across the target path or repo.
-2. **Read each file** containing useEffect. Classify each call against the anti-pattern catalog (see `react/no-use-effect-patterns.md`). Skip legitimate uses (ref-scoped events, animations, WS, analytics on display, focus management).
-3. **For each finding**, record: file path, anti-pattern matched, problematic code, suggested fix.
-4. **Report** grouped by anti-pattern with a summary of counts.
-
-### Anti-Patterns (13 total)
-
-See full catalog with code examples in [react/no-use-effect-patterns.md](react/no-use-effect-patterns.md):
-
-1. Derived State
-2. Expensive Derived Computation
-3. Reset All State on Prop Change
-4. Adjust Some State on Prop Change
-5. Event Logic in Effect
-6. POST / Mutation in Effect
-7. Effect Chains
-8. App Initialization in Effect
-9. Notify Parent via Effect
-10. Pass Data to Parent via Effect
-11. External Store Subscription
-12. Initialize State from Props via Effect
-13. Fetch Without Cleanup
