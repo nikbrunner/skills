@@ -40,8 +40,15 @@ Inside the tape, refer to `$REPO/docs/assets/tapes/demo` and `$REPO/docs/assets/
 
 Every clip uses the same font and themes, so all clips match: the font is TX-02 (Berkeley Mono, installed as `TX-02`),
 the themes are Black Atom Default Dark and Light, kept as VHS theme JSON in [`themes/`](../themes/). The tape sets neither.
-Each run prepends them, plus `CLIP_SCHEME` (`dark` or `light`) for the project's own fixtures to read, and records into its
-own directory.
+Each run prepends the two `Set` lines, then the tape's own `Output` and `Set` lines, then `Env CLIP_SCHEME` (`dark` or
+`light`) for the project's fixtures to read, and records into its own directory. VHS ignores any `Set` after another
+command, so `Env` must follow them.
+
+A program that paints its own palette (Herdr, a Neovim colorscheme, lazygit) ignores the terminal theme. Its fixture
+applies Black Atom Default from the Black Atom adapter for that tool,
+`black-atom/adapters/<tool>/themes/default/black-atom-default-<scheme>.toml`, picked by `CLIP_SCHEME`. Copy the fragment
+into `docs/assets/tapes/` so the tape works without a Black Atom checkout. With no adapter for the tool, ask before
+recording in another theme.
 
 VHS falls back to another font without a warning, so stop first when TX-02 is missing. The check needs fontconfig
 (`brew install fontconfig` on macOS) and the hyphen escaped:
@@ -53,8 +60,10 @@ for scheme in dark light; do
   mkdir <scratch>/$scheme && cd <scratch>/$scheme
   {
     printf 'Set Theme %s\n' "$(tr -d '\n' < <skill-dir>/themes/black-atom-default-$scheme.json)"
-    printf 'Set FontFamily "TX-02"\nEnv CLIP_SCHEME "%s"\n' $scheme
-    cat "$REPO/docs/assets/tapes/<topic>.tape"
+    printf 'Set FontFamily "TX-02"\n'
+    grep -E '^[[:space:]]*(Output|Set) ' "$REPO/docs/assets/tapes/<topic>.tape"
+    printf 'Env CLIP_SCHEME "%s"\n' $scheme
+    grep -vE '^[[:space:]]*(Output|Set) ' "$REPO/docs/assets/tapes/<topic>.tape"
   } > run.tape
   REPO=<repo> vhs run.tape
 done
