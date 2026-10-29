@@ -170,6 +170,8 @@ Follow directly applicable task skills in this pane; ignore unrelated skills.
 Pre-existing changes: <clean, or exact status summary>
 ```
 
+When the task builds or tests tooling for Rex or Herdr itself, send the line `Do not invoke Pi subagent tools, workflow orchestration, or worktrees.` in place of the boundary line that names them, followed by `Run Rex or Herdr commands only to test this task's changes, and close only sessions or panes you created.`
+
 The child may follow directly applicable task skills in this pane, but must not delegate this task to another agent or reviewer.
 
 Tell the child that its final response must contain only this copy-ready handoff:
