@@ -174,7 +174,9 @@ When the task builds or tests tooling for Rex or Herdr itself, send the line `Do
 
 The child may follow directly applicable task skills in this pane, but must not delegate this task to another agent or reviewer.
 
-Tell the child that its final response must contain only this copy-ready handoff:
+Tell the child that the handoff below closes the dispatched task: its reply when that task is done contains only
+this copy-ready handoff. After that the user works with it directly, and it answers in plain conversation, writing
+a new handoff only when the user asks for one:
 
 ```text
 Repository: <absolute path>
