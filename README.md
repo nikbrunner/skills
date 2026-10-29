@@ -73,7 +73,7 @@ How I plan, commit, open PRs, set up repos and run coding agents.
 | `nbr-self-reflection`    | Turn a correction into a durable improvement                                      |
 | `nbr-slow-mode`          | Slow down for learning and human decisions                                        |
 | `nbr-record-clip`        | Record motion as a dark and light looping WebP, or a video with `cap`             |
-| `nbr-dispatch`           | Start a coding agent for another repo in a Herdr workspace                        |
+| `nbr-dispatch`           | Start a coding agent for another repo in a Rex session or Herdr workspace         |
 | `nbr-intercom`           | Talk directly to an agent session running in another repo                         |
 | `nbr-nvim-dev`           | Neovim and Lua development workflow                                               |
 
@@ -86,7 +86,7 @@ Install these first:
 | [Plannotator](https://github.com/backnotprop/plannotator)           | see its README, it ships `plannotator-annotate`                      | `nbr-plan`                                                 |
 | `gh` or [`bkt`](https://github.com/avivsinai/bitbucket-cli)         | your package manager                                                 | `nbr-create-pr`                                            |
 
-`nbr-record-clip` needs ImageMagick, plus VHS, ffmpeg, Playwright or [Cap](https://cap.so) depending on what it records. `nbr-dispatch` needs [Herdr](https://github.com/herdrdev/herdr), `nbr-intercom` Claude Code, and `nbr-nvim-dev` Neovim and ripgrep.
+`nbr-record-clip` needs ImageMagick, plus VHS, ffmpeg, Playwright or [Cap](https://cap.so) depending on what it records. `nbr-dispatch` needs [Rex](https://www.superlogical.com/rex) or [Herdr](https://github.com/herdrdev/herdr), `nbr-intercom` Claude Code, and `nbr-nvim-dev` Neovim and ripgrep.
 
 ### Personal
 

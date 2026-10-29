@@ -1,12 +1,12 @@
 ---
 name: nbr-dispatch
-description: Start a fresh coding agent in a Herdr workspace for another repository. Use when the user asks to dispatch, spawn, sidekick, fork, or hand off a task to Pi, Claude Code, Codex, or another coding harness.
-compatibility: Requires Herdr.
+description: Start a fresh coding agent in a Rex session (or Herdr workspace) for another repository. Use when the user asks to dispatch, spawn, sidekick, fork, or hand off a task to Pi, Claude Code, Codex, or another coding harness.
+compatibility: Requires Rex or Herdr.
 ---
 
 # Dispatch
 
-Start a fresh coding-agent session in the target repository's Herdr workspace. Invoke this skill explicitly as `/skill:nbr-dispatch`.
+Start a fresh coding-agent session in the target repository's Rex session, or its Herdr workspace outside Rex. Invoke this skill explicitly as `/skill:nbr-dispatch`.
 
 When a session already runs in the target repository, ask the user whether to message it through `nbr-intercom` instead of starting a new one.
 
@@ -16,18 +16,18 @@ A user-supplied `<skill name="nbr-dispatch">...</skill>` definition followed by 
 
 Once active:
 
-- Check `HERDR_ENV` before inspecting the target repository or Herdr.
+- Check `REX_SESSION` and `HERDR_ENV` before inspecting the target repository, Rex, or Herdr.
 - Perform only routing checks required by this skill. Do not inspect implementation files or edit the target repository directly.
 - If dispatch cannot run, report blocked. Never fall back to inline implementation.
 - Task approval authorizes dispatch, not bypassing dispatch.
 
 ## Preconditions
 
-This skill requires `HERDR_ENV=1`. Check it before inspecting Herdr or resolving a workspace:
+This skill runs inside Rex or Herdr. Prefer Rex: when `REX_SESSION` is set, use the Rex path; otherwise, when `HERDR_ENV=1`, use the Herdr path. Check before inspecting either or resolving a target:
 
 ```bash
-test "${HERDR_ENV:-}" = 1 || {
-  printf '%s\n' 'Dispatch must run inside Herdr.' >&2
+test -n "${REX_SESSION:-}" || test "${HERDR_ENV:-}" = 1 || {
+  printf '%s\n' 'Dispatch must run inside Rex or Herdr.' >&2
   return 1 2>/dev/null || exit 1
 }
 ```
@@ -77,7 +77,7 @@ Confirm the name with the user before creating it, unless the brief or calling s
 
 ## Check the target worktree
 
-After the user confirms the path, check its state before creating a workspace or pane:
+After the user confirms the path, check its state before creating a session, workspace, or pane:
 
 ```bash
 git -C "$target_repo" status --short
@@ -90,7 +90,36 @@ When the output is empty, continue. When it is not, show the changed-file summar
 - **Create a tracker issue**: inspect the `origin` remote and identify its GitHub or Bitbucket target. Ask for confirmation again before creating an external issue. Use an authenticated, directly applicable tracker tool only when available. Otherwise return the copy-ready handoff. Do not infer a Jira project from a remote.
 - **Stop**: make no change.
 
+## Select the Rex session
+
+Skip this section outside Rex.
+
+Session labels are repo names or PR titles, so match on working directories, not labels. For each session from `rex ls --json`, list its panes with `rex block ls -s <session> --json` and read each pane's process with `rex block call -s <session> -b <block> process`. A session matches when a pane's `.foreground.cwd`, or its shell ancestor's `cwd`, exactly equals `$target_repo`. If several sessions match, ask one focused question naming their labels and IDs.
+
+Label the new pane `Agent <next roman numeral>`, counting the `Agent …` labels already in that session (`Agent I`, `Agent II`, …). `nbr-intercom` finds agent panes by that label.
+
+For one matching session, read its `active_window_id` and that window's `focused_block_id` from `rex session inspect <session> --json`, then split that pane, choosing `right` or `below` from its layout `rect`. The harness and child prompt come from the sections below; pass the prompt as the harness's first argument, never through `rex send`:
+
+```bash
+child=$(rex split -s "$session" -b "$anchor_block" --split="$direction" -c "$target_repo" \
+  --label "$agent_label" --focus=false --json -- "$harness" "$child_prompt")
+child_id=$(printf '%s\n' "$child" | jq -er '.block_ids[0]')
+```
+
+When no session matches, create one for the target and start the worker in its first pane:
+
+```bash
+created=$(rex new "$(basename "$target_repo")" -c "$target_repo" --window Agents --json -- "$harness" "$child_prompt")
+session=$(printf '%s\n' "$created" | jq -er '.session_id')
+child_id=$(printf '%s\n' "$created" | jq -er '.initial_windows[0].block_ids[0]')
+rex block rename -s "$session" "$child_id" 'Agent I'
+```
+
+Parse every Rex ID from JSON output. Never guess IDs or rely on UI focus. The worker starts with its prompt, so skip the Herdr launch commands below.
+
 ## Select the Herdr workspace
+
+Skip this section inside Rex.
 
 List the open workspaces:
 
@@ -134,7 +163,7 @@ Send these boundary instructions literally, alongside the task details:
 You are the dispatched worker.
 Work directly in the selected repository and in this pane.
 Do not launch reviewers or other agents.
-Do not invoke Pi subagent tools, workflow orchestration, worktrees, or Herdr commands.
+Do not invoke Pi subagent tools, workflow orchestration, worktrees, or Rex or Herdr commands.
 Do not inspect or switch to another repository.
 Never push to the default branch; changes reach it through a pull request.
 Follow directly applicable task skills in this pane; ignore unrelated skills.
@@ -161,7 +190,7 @@ When both this session and the child run Claude Code, the child reports back thr
 Report back to the dispatching session <name> with SendMessage: one line when you start ("On it: <task>"), and the handoff when you finish.
 ```
 
-Run these commands from the current pane. Parse every Herdr ID from JSON responses. Never guess IDs or rely on UI focus.
+In Herdr, run these commands from the current pane. Parse every Herdr ID from JSON responses. Never guess IDs or rely on UI focus.
 
 ```bash
 agent_name="dispatch-$(date +%s)"
@@ -171,4 +200,4 @@ herdr agent prompt "$agent_name" "$child_prompt"
 
 A pane whose shell is still starting, or still running a command sent with `herdr pane run`, makes `agent start` fail with `agent_pane_busy`. Wait a second and retry, up to three times, before reporting it blocked.
 
-Do not add `--wait`, wait for child completion, read child output, summarize its work, or close its pane. Return a short launch receipt with the confirmed repository, workspace, pane, agent name, and that the child will leave its handoff in its pane. When the child's messages arrive, pass each one to the user in a line or two.
+Do not add `--wait`, wait for child completion, read child output, summarize its work, or close its pane. Return a short launch receipt with the confirmed repository, Rex session or Herdr workspace, pane, agent label or name, and that the child will leave its handoff in its pane. When the child's messages arrive, pass each one to the user in a line or two.
