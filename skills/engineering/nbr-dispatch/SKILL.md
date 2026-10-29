@@ -62,7 +62,7 @@ Ask the user to confirm the resolved absolute target path in the current convers
 
 Run this step only when the brief or the calling skill asks for a new worktree. The dispatcher creates it; the worker never does.
 
-Follow the target repository's own worktree convention when its `AGENTS.md` or a start skill it names documents one: naming, base branch, and install step. Without one, derive the primary branch and create a sibling:
+Name the branch, folder and Rex session label by the worktree convention in the user's global agent instructions, when they define one. Follow the target repository's own `AGENTS.md` or a start skill it names for the base branch and install step. Without them, derive the primary branch and create a sibling:
 
 ```bash
 base=$(git -C "$target_repo" symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')
@@ -106,10 +106,10 @@ child=$(rex split -s "$session" -b "$anchor_block" --split="$direction" -c "$tar
 child_id=$(printf '%s\n' "$child" | jq -er '.block_ids[0]')
 ```
 
-When no session matches, create one for the target and start the worker in its first pane:
+When no session matches, create one for the target and start the worker in its first pane. `session_label` is the worktree's label from the worktree convention, or the repository's folder name for a main checkout:
 
 ```bash
-created=$(rex new "$(basename "$target_repo")" -c "$target_repo" --window Agents --json -- "$harness" "$child_prompt")
+created=$(rex new "$session_label" -c "$target_repo" --window Agents --json -- "$harness" "$child_prompt")
 session=$(printf '%s\n' "$created" | jq -er '.session_id')
 child_id=$(printf '%s\n' "$created" | jq -er '.initial_windows[0].block_ids[0]')
 rex block rename -s "$session" "$child_id" 'Agent I'
