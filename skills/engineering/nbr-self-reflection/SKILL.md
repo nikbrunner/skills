@@ -1,8 +1,7 @@
 ---
 name: nbr-self-reflection
-description: Use when the user explicitly asks to learn from something that went wrong in the current conversation or wants a correction turned into a durable improvement.
+description: Use when the user asks to reflect on the conversation or on a correction ("reflect on this", "self-reflect", "what went wrong here", "learn from this"), or wants friction turned into a durable improvement to a skill, AGENTS.md or automation.
 argument-hint: "[what went wrong or what to inspect]"
-disable-model-invocation: true
 compatibility: Requires access to the current conversation and shell access for public skill discovery with npx skills find.
 ---
 
