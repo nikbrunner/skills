@@ -98,7 +98,7 @@ Session labels are repo names or PR titles, so match on working directories, not
 
 Label the new pane `Agent <next roman numeral>`, counting the `Agent …` labels already in that session (`Agent I`, `Agent II`, …). `nbr-intercom` finds agent panes by that label.
 
-For one matching session, read its `active_window_id` and that window's `focused_block_id` from `rex session inspect <session> --json`, then split that pane, choosing `right` or `below` from its layout `rect`. The harness and child prompt come from the sections below; pass the prompt as the harness's first argument, never through `rex send`:
+For one matching session, start the worker in its Agents tab, the window named `Agents` that Helm's layout creates first: anchor on an `Agent …` pane there and split it, choosing `right` or `below` from its layout `rect`. Only a session without an Agents tab falls back to the `focused_block_id` of its `active_window_id` from `rex session inspect <session> --json`. Never open a new window for the worker. The harness and child prompt come from the sections below; pass the prompt as the harness's first argument, never through `rex send`:
 
 ```bash
 child=$(rex split -s "$session" -b "$anchor_block" --split="$direction" -c "$target_repo" \
@@ -131,9 +131,9 @@ An open workspace matches only when its `worktree.checkout_path` exactly equals 
 
 For one matching workspace:
 
-1. Read its active tab ID from the workspace result.
+1. Pick its Agents tab, the one Helm's layout creates first. Only a workspace without one falls back to the active tab ID from the workspace result. Never create a tab for the worker.
 2. List its panes with `herdr pane list --workspace <workspace-id>`.
-3. Select a pane from that active tab and inspect its layout with `herdr pane layout --pane <pane-id>`.
+3. Select a pane from that tab and inspect its layout with `herdr pane layout --pane <pane-id>`.
 4. Split that explicit pane, choosing `right` or `down` from its geometry. Set the new pane's cwd to `$target_repo` and keep focus unchanged.
 
 ```bash
