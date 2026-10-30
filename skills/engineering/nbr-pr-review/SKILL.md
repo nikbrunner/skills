@@ -24,7 +24,6 @@ A state other than `OPEN` stops here. So does `isCrossRepository: true`: a PR fr
 Name the PR's subject in two to four words from its title and description, the way Nik would say it out loud: `playwright-e2e` for "feat(e2e): add playwright end-to-end tests", `project-members` for "Feat/ABC-12 members and roles in projects". Drop commit-type prefixes, ticket keys, and filler. That `<topic>` names everything this skill creates:
 
 - worktree folder and Rex session label: the worktree convention in the global agent instructions, e.g. `~/repos/nikbrunner/nbr.haus-project-members` labelled `Project members · PR 15`
-- agent name: `review-<number>-<topic>`, cut to 32 characters
 
 The branch keeps the PR's own name, since it tracks `origin/<source>`.
 
@@ -52,8 +51,8 @@ Run `nbr-session-setup` without an agent first, with:
 - the label `<Topic in words> · PR <number>`
 - install `no-scripts`, in the package roots the diff touches: this install is part of the skill, and the PR's own code stays unrun
 
-It returns the worktree, its state when reused (local commits the remote lacks, uncommitted changes), and the session. Fill the brief in [`BRIEF.md`](BRIEF.md) with them and write it to a scratchpad file with the Write tool, so its backticks and the author's description never pass through shell quoting. Then run setup's agent step for that session: the brief file, harness `claude`, the agent name.
+It returns the worktree, its state when reused (local commits the remote lacks, uncommitted changes), and the session. Fill the brief in [`BRIEF.md`](BRIEF.md) with them and write it to a scratchpad file with the Write tool, so its backticks and the author's description never pass through shell quoting. Then run setup's agent step for that session: the brief file and harness `claude`. Setup names the agent.
 
 Setup stops on a denial or a trust or login dialog: give Nik the session, the pane, the brief file path, and the exact denial or dialog, and leave the rest to him.
 
-Return a launch receipt: PR title, worktree path, Rex session, agent name.
+Return a launch receipt: PR title, worktree path, Rex session, the agent's name.

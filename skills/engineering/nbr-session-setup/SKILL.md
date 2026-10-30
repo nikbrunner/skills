@@ -19,7 +19,7 @@ Prefer Rex: when `REX_SESSION` is set, use the Rex sections; otherwise, when `HE
   - **topic**: a new branch and worktree from the primary branch. The caller passes the branch name.
 - **Topic** and **label**: name the worktree folder and the session by the worktree convention in the global agent instructions. The caller passes the label, since it carries ticket keys and PR numbers.
 - **Install**: `normal`, `no-scripts` for code nobody has reviewed yet (a PR under review), or `skip`.
-- **Agent**, optional: a brief file, a harness (`claude`, `pi`, `codex`), and for Claude a name.
+- **Agent**, optional: a brief file and a harness (`claude`, `pi`, `codex`). Setup names the agent.
 
 ## Worktree
 
@@ -64,6 +64,8 @@ Stop when it fails.
 ## Rex agent
 
 Skip this section without an agent.
+
+Name the agent first. The names are a loop of ten that survive dictation: Ben, Clara, Emma, Felix, Greta, Lena, Max, Pink, Sadie, Sophie. Take the first one after the last name in use, in loop order, that no live agent holds (`ListAgents`, `rex ls`). Then put the name in front of the session's label: `rex session rename "$session" "$name · $label"`. The agent is addressed by that name from then on.
 
 Find the pane in the session's Agents tab, the window named `Agents`:
 
@@ -121,4 +123,4 @@ A pane whose shell is still starting makes `agent start` fail with `agent_pane_b
 
 ## Return
 
-The worktree path, whether it was created or reused (with its status when not clean), the session or workspace, the pane, and the agent name. Parse every ID from JSON output; never guess one or rely on UI focus.
+The worktree path, whether it was created or reused (with its status when not clean), the session or workspace with its label, the pane, and the agent's name. Parse every ID from JSON output; never guess one or rely on UI focus.
