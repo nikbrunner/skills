@@ -6,7 +6,7 @@ The report's **Circle** line picks the note. When it is missing or the repo path
 
 Take the report field by field:
 
-- **What** finds the todo. A todo already in the note changes in place; only new work adds one, under the heading the circle's shape gives the repo.
+- **What** finds the todo, in the daily or the monthly note. A todo already there changes in place; only new work adds one, under the heading the circle's shape gives the repo. New work with no date and nobody waiting goes to the monthly note.
 - **Done today** ticks the matching children, or adds one done line. A list of commits shrinks to the outcome. In the private note, done work goes under the repo's bullet in `## Development`, in `nbr-log`'s shape.
 - **Waiting** becomes one context line under the todo: who holds the next move, on what. It is no checkbox, since the move is not Nik's.
 - **Next for Nik** keeps only what Nik can act on today or on a known trigger, such as a merge or a review. Steps that belong together (merge, then clean up) go into one checkbox. A follow-up tied to an open-ended future ("with the next release") is dropped, or kept as a context line only when nothing else would bring it up.
