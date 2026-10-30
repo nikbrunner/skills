@@ -1,7 +1,7 @@
 ---
 name: nbr-changelog-things
 description: Use when the user asks to log today’s development work, commits, GitHub activity, or a changelog as completed Things items.
-compatibility: Requires Things 3 on macOS, the things CLI, the gh CLI and Node 22.6 or later.
+compatibility: Requires Things 3 on macOS, the things CLI, and nbr-activity.
 user-invocable: true
 ---
 
@@ -12,14 +12,8 @@ Record collected development activity as completed Things todos.
 ## Collect activity
 
 1. Set the target date from `$ARGUMENTS` when it is `YYYY-MM-DD`; otherwise use the local calendar date.
-2. Run the collector from this skill's `scripts/` directory over the directory that holds the user's repositories:
-
-```bash
-ACTIVITY_REPORT=$(mktemp)
-node --no-warnings --experimental-strip-types <skill-dir>/scripts/collect-activity.ts --date YYYY-MM-DD --root "$HOME/repos" --github-user "$(gh api user --jq .login)" > "$ACTIVITY_REPORT"
-```
-
-3. Read the JSON unchanged. Collector errors are reportable data. Keep successful local activity when GitHub collection fails.
+2. Run `nbr-activity` for the target date with circle `private` and `--json`.
+3. Read the records unchanged: `git` records carry `slug`, `subject` and, for GitHub repos, the commit `url`; `github` records carry `kind` (`pr` or `issue`), `slug`, `number`, `title` and `url`. Error records are reportable data. Keep the local commits when GitHub fails.
 
 ## Create completed todos
 
