@@ -58,22 +58,9 @@ target_repo=$(cd -- "$target_repo" && pwd -P)
 
 Ask the user to confirm the resolved absolute target path in the current conversation. For example: “I resolved this to `/home/you/code/acme/project`. Dispatch there?” Do this even for the current checkout, unless a calling skill passes a target the user already confirmed. If no candidate is clear or several candidates tie, ask one focused question for the path. Do not open a repository picker and do not create a pane from an unconfirmed inference.
 
-## Create a worktree
+## Name a worktree
 
-Run this step only when the brief or the calling skill asks for a new worktree. The dispatcher creates it; the worker never does.
-
-Name the branch, folder and Rex session label by the worktree convention in the user's global agent instructions, when they define one. Follow the target repository's own `AGENTS.md` or a start skill it names for the base branch and install step. Without them, derive the primary branch and create a sibling:
-
-```bash
-base=$(git -C "$target_repo" symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')
-: "${base:?origin/HEAD is unset; ask the user for the base branch}"
-worktree_path="$(dirname "$target_repo")/<name>"
-git -C "$target_repo" fetch origin "$base"
-git -C "$target_repo" worktree add "$worktree_path" -b "<name>" "origin/$base"
-target_repo=$(cd -- "$worktree_path" && pwd -P)
-```
-
-Confirm the name with the user before creating it, unless the brief or calling skill already confirmed it, then run the repository's install step in the new tree. The new `$target_repo` holds for every later step. A fresh worktree is clean, so skip the state check below. Tell the worker that its location is settled and is this worktree. If dispatch stops after this point, name the created worktree in the report so the user can remove it.
+Only when the brief or the calling skill asks for a new worktree: name its topic and branch by the worktree convention in the user's global agent instructions, and confirm them with the user, unless the brief or calling skill already did. The worker never creates one; `nbr-session-setup` does, and a fresh worktree is clean, so skip the state check below. Tell the worker that its location is settled and is that worktree.
 
 ## Check the target worktree
 
@@ -89,65 +76,6 @@ When the output is empty, continue. When it is not, show the changed-file summar
 - **Write a handoff**: return a copy-ready handoff containing the target, task, dirty-state summary, and suggested next step. Do not launch an agent.
 - **Create a tracker issue**: inspect the `origin` remote and identify its GitHub or Bitbucket target. Ask for confirmation again before creating an external issue. Use an authenticated, directly applicable tracker tool only when available. Otherwise return the copy-ready handoff. Do not infer a Jira project from a remote.
 - **Stop**: make no change.
-
-## Select the Rex session
-
-Skip this section outside Rex.
-
-Session labels are repo names or PR titles, so match on working directories, not labels. For each session from `rex ls --json`, list its panes with `rex block ls -s <session> --json` and read each pane's process with `rex block call -s <session> -b <block> process`. A session matches when a pane's `.foreground.cwd`, or its shell ancestor's `cwd`, exactly equals `$target_repo`. If several sessions match, ask one focused question naming their labels and IDs.
-
-Label the new pane `Agent <next roman numeral>`, counting the `Agent …` labels already in that session (`Agent I`, `Agent II`, …). `nbr-intercom` finds agent panes by that label.
-
-For one matching session, start the worker in its Agents tab, the window named `Agents` that Helm's layout creates first: anchor on an `Agent …` pane there and split it, choosing `right` or `below` from its layout `rect`. Only a session without an Agents tab falls back to the `focused_block_id` of its `active_window_id` from `rex session inspect <session> --json`. Never open a new window for the worker. The harness and child prompt come from the sections below; pass the prompt as the harness's first argument, never through `rex send`:
-
-```bash
-child=$(rex split -s "$session" -b "$anchor_block" --split="$direction" -c "$target_repo" \
-  --label "$agent_label" --focus=false --json -- "$harness" "$child_prompt")
-child_id=$(printf '%s\n' "$child" | jq -er '.block_ids[0]')
-```
-
-When no session matches, create one for the target and start the worker in its first pane. `session_label` is the worktree's label from the worktree convention, or the repository's folder name for a main checkout:
-
-```bash
-created=$(rex new "$session_label" -c "$target_repo" --window Agents --json -- "$harness" "$child_prompt")
-session=$(printf '%s\n' "$created" | jq -er '.session_id')
-child_id=$(printf '%s\n' "$created" | jq -er '.initial_windows[0].block_ids[0]')
-rex block rename -s "$session" "$child_id" 'Agent I'
-```
-
-Parse every Rex ID from JSON output. Never guess IDs or rely on UI focus. The worker starts with its prompt, so skip the Herdr launch commands below.
-
-## Select the Herdr workspace
-
-Skip this section inside Rex.
-
-List the open workspaces:
-
-```bash
-herdr workspace list
-```
-
-An open workspace matches only when its `worktree.checkout_path` exactly equals `$target_repo`. A workspace for a linked worktree or another checkout of the same repository does not match. If several workspaces match, ask one focused question naming their labels and IDs. Do not use a picker.
-
-For one matching workspace:
-
-1. Pick its Agents tab, the one Helm's layout creates first. Only a workspace without one falls back to the active tab ID from the workspace result. Never create a tab for the worker.
-2. List its panes with `herdr pane list --workspace <workspace-id>`.
-3. Select a pane from that tab and inspect its layout with `herdr pane layout --pane <pane-id>`.
-4. Split that explicit pane, choosing `right` or `down` from its geometry. Set the new pane's cwd to `$target_repo` and keep focus unchanged.
-
-```bash
-child=$(herdr pane split "$workspace_pane_id" --direction "$direction" --cwd "$target_repo" --no-focus)
-child_id=$(printf '%s\n' "$child" | jq -er '.result.pane.pane_id')
-```
-
-When no workspace matches, create an unfocused target workspace and use its root pane directly:
-
-```bash
-target_label=$(basename "$target_repo")
-created=$(herdr workspace create --cwd "$target_repo" --label "$target_label" --no-focus)
-child_id=$(printf '%s\n' "$created" | jq -er '.result.root_pane.pane_id')
-```
 
 ## Resolve the harness
 
@@ -194,14 +122,6 @@ When both this session and the child run Claude Code, the child reports back thr
 Report back to the dispatching session <name> with SendMessage: one line when you start ("On it: <task>"), and the handoff when you finish.
 ```
 
-In Herdr, run these commands from the current pane. Parse every Herdr ID from JSON responses. Never guess IDs or rely on UI focus.
-
-```bash
-agent_name="dispatch-$(date +%s)"
-herdr agent start "$agent_name" --kind "$harness" --pane "$child_id"
-herdr agent prompt "$agent_name" "$child_prompt"
-```
-
-A pane whose shell is still starting, or still running a command sent with `herdr pane run`, makes `agent start` fail with `agent_pane_busy`. Wait a second and retry, up to three times, before reporting it blocked.
+Write the child prompt to a scratch file with the Write tool, so it never passes shell quoting. Then run `nbr-session-setup` with the confirmed repository, the worktree topic and branch when one was named, install `normal` for a new worktree, the worktree's label (or the repository's folder name for a main checkout), and the agent: the prompt file, the harness, and the name `dispatch-<task in two or three words>`. Setup stops on a denial or dialog; report what it returns as blocked. When it stops after creating a worktree, name that worktree so the user can remove it.
 
 Do not add `--wait`, wait for child completion, read child output, summarize its work, or close its pane. Return a short launch receipt with the confirmed repository, Rex session or Herdr workspace, pane, agent label or name, and that the child will leave its handoff in its pane. When the child's messages arrive, pass each one to the user in a line or two.
