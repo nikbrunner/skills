@@ -23,7 +23,7 @@ A plain answer or status check, with nothing agreed and nobody holding a follow-
 
 1. `rex ls` lists sessions by label (a repo name, or a PR title like `PR 20 · Labels configuration`).
 2. `rex block ls -s <session>` lists its panes; agent panes are labelled `Agent I`, `Agent II`, ….
-3. Confirm the pane with `rex capture -s <session> -b <block> | tail -25`: the status line names the repo and the Claude session (`[tom]`, `[pr-20-labels-config]`).
+3. Confirm the pane with `rex capture -s <session> -b <block> | tail -25`: the status line names the repo and the Claude session (`[Bob]`, `[pr-20-labels-config]`).
 4. Send the message as a bracketed paste, so its newlines stay in the input instead of submitting it, then submit it: `rex send -s <session> -b <block> $'\e[200~'"$message"$'\e[201~'` and `rex send-key -s <session> -b <block> Enter`. Check with `rex capture` that it shows after a `❯` prompt.
 5. The reply does not arrive as a new message. When you need it, wait in the turn with an until-loop on `rex capture` for the pane's next `· done HH:MM` line (Bash `timeout` up to 240000), then read the reply from the capture.
 
