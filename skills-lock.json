@@ -5,19 +5,19 @@
       "source": "avivsinai/bitbucket-cli",
       "sourceType": "github",
       "skillPath": "skills/bkt/SKILL.md",
-      "computedHash": "f69b3223de61e0e5b33399f7bf5dc09a086fa45bd4e68969646f424beda80ab4"
+      "computedHash": "50f111fba8511ea21e4c42a917224c5ba6b30fe47ebfe84d3c77fce68cd86546"
     },
     "code-review": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "skillPath": "skills/engineering/code-review/SKILL.md",
-      "computedHash": "57cfd4ceb011f05e58a1a4f4cad3b2e03419d371f8990f4bcb32ff0d435a039f"
+      "computedHash": "c2745e2be960b82b9fddd82cf45265f42431e7b045c403f297b25f0f311e9210"
     },
     "codebase-design": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "skillPath": "skills/engineering/codebase-design/SKILL.md",
-      "computedHash": "b2888e4f4e8c0af3bfd557575a64b905c44e6248c3101d72077816882b3a92b9"
+      "computedHash": "aa11a96c08451f4ff86052d5da94004a8c97bb4ea41b2ac8a4300c189f66c89c"
     },
     "diagnosing-bugs": {
       "source": "mattpocock/skills",
@@ -47,7 +47,7 @@
       "source": "blader/humanizer",
       "sourceType": "github",
       "skillPath": "SKILL.md",
-      "computedHash": "fa4ffac562a8e7349282f606391ede22d23118e998dc8b5ac931662fa734c1b7"
+      "computedHash": "1e67c3a4a675bd0c961b1fd8ebb718174f9a61a547d9bedad2ade5eb99cce831"
     },
     "skill-creator": {
       "source": "anthropics/skills",
@@ -65,7 +65,7 @@
       "source": "elevenlabs/skills",
       "sourceType": "github",
       "skillPath": "text-to-speech/SKILL.md",
-      "computedHash": "451b0b1444cb9890107ec36ebc948868d12ae3bdcb42cc513c5461f8d15e3de0"
+      "computedHash": "21391cae9c77ac1f843c2001e489f84091bfc8bd2e1199e7f63786a5609d5904"
     },
     "writing-for-agents": {
       "source": "mattpocock/skills",
