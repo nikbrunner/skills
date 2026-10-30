@@ -69,6 +69,9 @@ flowchart LR
     conventions["nbr-repo-conventions<br/>topics"]
     rsetup["nbr-repo-setup"]
     raudit["nbr-repo-audit"]
+    activity["nbr-activity<br/>one day's activity per circle"]
+    nlog["nbr-log<br/>private daily note"]
+    things["nbr-changelog-things"]
   end
   subgraph imf["ImFusion"]
     bob["imfg-bob<br/>the notes session"]
@@ -88,6 +91,9 @@ flowchart LR
   rebuild --> buckets --> commit --> audit
   rsetup -- reads --> conventions
   raudit -- runs against --> conventions
+  nlog --> activity
+  things --> activity
+  log --> activity
   classDef imfusion stroke-dasharray: 5 5
   class bob,report,ireview,log imfusion
 ```
@@ -96,7 +102,9 @@ flowchart LR
 
 **A dispatch.** `nbr-dispatch` confirms the target repo with me, checks its state, writes the brief with the worker's boundary rules, and launches it through `nbr-session-setup`. The worker reports back to the dispatching session with a handoff.
 
-**A day with Bob.** Bob is my notes session, `imfg-bob`. Sessions report to it with `imfg-report-to-bob`, it keeps the daily note through `imfg-log`, and it hands PR reviews to `imfg-pr-review`. Teardown asks any live agent for its report before it closes the session.
+**A day with Bob.** Bob is my notes session, `imfg-bob`. Sessions report to it with `imfg-report-to-bob`, it keeps the work daily note through `imfg-log`, and it hands PR reviews to `imfg-pr-review`. Teardown asks any live agent for its report before it closes the session.
+
+**The day's record.** `nbr-activity` collects one day's commits, GitHub, Bitbucket and Jira activity per circle. `nbr-log` writes the private daily note from it, `imfg-log` the work note, and `nbr-changelog-things` logs it as Things items.
 
 **Commits.** `nbr-git-commit` makes one commit: review, gate, commit, with `nbr-audit-docs` as the docs check. `nbr-git-commit-buckets` sorts a dirty tree into several commits through it, and `nbr-git-commit-rebuild` turns a run of commits back into a dirty tree for buckets.
 
@@ -144,12 +152,14 @@ Install these first:
 
 ### Personal
 
-Tasks in Things 3 and speech from ElevenLabs.
+The day's activity and its daily note, tasks in Things 3, and speech from ElevenLabs.
 
 | Skill                  | What it does                                               | Requires                                                                                                        |
 | ---------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `nbr-activity`         | Collect one day's activity per circle as compact text      | macOS, git, jq; `gh`; `bkt` and the ImFusion agents repo for work                                               |
+| `nbr-log`              | Write the day's development work into the private note     | `nbr-activity`, an Obsidian vault                                                                               |
 | `nbr-things`           | Manage Things 3 tasks on macOS                             | Things 3, the `things` CLI                                                                                      |
-| `nbr-changelog-things` | Log a day's development work as completed Things items     | Things 3, the `things` CLI, `gh`, Node 22.6+                                                                    |
+| `nbr-changelog-things` | Log a day's development work as completed Things items     | Things 3, the `things` CLI, `nbr-activity`                                                                      |
 | `nbr-tts`              | Turn text into speech with ElevenLabs                      | ElevenLabs account, the `elevenlabs` CLI, jq, ffmpeg, `npx skills add elevenlabs/skills --skill text-to-speech` |
 
 ## License
