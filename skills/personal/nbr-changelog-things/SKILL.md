@@ -12,7 +12,7 @@ Record collected development activity as completed Things todos.
 ## Collect activity
 
 1. Set the target date from `$ARGUMENTS` when it is `YYYY-MM-DD`; otherwise use the local calendar date.
-2. Run `nbr-activity` for the target date with circle `private` and `--json`.
+2. Run `nbr-activity` for the target date with `--json`.
 3. Read the records unchanged: `git` records carry `slug`, `subject` and, for GitHub repos, the commit `url`; `github` records carry `kind` (`pr` or `issue`), `slug`, `number`, `title` and `url`. Error records are reportable data. Keep the local commits when GitHub fails.
 
 ## Create completed todos
