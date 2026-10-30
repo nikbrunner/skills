@@ -24,7 +24,6 @@ tool config follows only if the split between the two repos gets in the way.
 - `plannotator-annotate`, `-last`, `-review` from the Plannotator installer, and `tldraw-offline` and `terminal-browser`
   from their apps. They can stay untracked, since their tools reinstall them.
 - The `imfg-*` links into the ImFusion agents repo. That repo needs its own install step for them first.
-- The skill map in `common/.agents/skills/README.md` describes my skills and belongs in this README.
 
 ## Port the web-ui workflow improvements
 
@@ -38,6 +37,10 @@ The web-ui project skills have moved ahead of their generic versions here. Gener
 - Worktree start and teardown: base branch from `origin/HEAD`, install in a new worktree, rebase-verify-fast-forward
   merges with no merge commits or force pushes.
 - `nbr-record-clip`: measure the loop cycle in the page instead of passing it by hand.
+
+## Session skills, and Bob at user level
+
+The plan lives in [`plans/session-skills-and-bob.md`](plans/session-skills-and-bob.md).
 
 ## Make the engineering skills read well for colleagues
 
