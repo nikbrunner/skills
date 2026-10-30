@@ -20,10 +20,10 @@ Collect every finding before stopping, so one report names them all:
 - **Unpushed commits**: `git -C "$worktree" log --oneline HEAD --not --remotes=origin` lists any. Name each commit.
 - **Agents**: each `Agent …` pane whose foreground is not a shell runs an agent, except the caller's own pane (`$REX_BLOCK`). Read its state with `rex block call -s "$session" -b "$block" program_status`: `working` or `blocked` is mid-task, a finding.
 
-A live agent that is `done` or `idle` gets asked for its report to Bob first, unless the caller says it already reported: send it `/imfg-report-to-bob`, then wait until its state goes back to `done`.
+A live agent that is `done` or `idle` gets asked for its report to Bob first, unless the caller says it already reported: send it `/nbr-report-to-bob`, then wait until its state goes back to `done`.
 
 ```sh
-rex send -s "$session" -b "$block" '/imfg-report-to-bob' && rex send-key -s "$session" -b "$block" enter
+rex send -s "$session" -b "$block" '/nbr-report-to-bob' && rex send-key -s "$session" -b "$block" enter
 ```
 
 Any finding: stop, report each one with its pane or commit, and change nothing. Done when every check came back clean.
