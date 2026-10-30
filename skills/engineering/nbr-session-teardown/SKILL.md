@@ -18,7 +18,7 @@ Collect every finding before stopping, so one report names them all:
 
 - **Uncommitted changes**: `git -C "$worktree" status --short` is not empty.
 - **Unpushed commits**: `git -C "$worktree" log --oneline HEAD --not --remotes=origin` lists any. Name each commit.
-- **Agents**: each `Agent …` pane whose foreground is not a shell runs an agent. Read its state with `rex block call -s "$session" -b "$block" program_status`: `working` or `blocked` is mid-task, a finding.
+- **Agents**: each `Agent …` pane whose foreground is not a shell runs an agent, except the caller's own pane (`$REX_BLOCK`). Read its state with `rex block call -s "$session" -b "$block" program_status`: `working` or `blocked` is mid-task, a finding.
 
 A live agent that is `done` or `idle` gets asked for its report to Bob first, unless the caller says it already reported: send it `/imfg-report-to-bob`, then wait until its state goes back to `done`.
 
@@ -42,9 +42,11 @@ When that pane ran Docker Compose (`ps -o command= -p <foreground pid>` names `d
 
 ```sh
 branch=$(git -C "$worktree" branch --show-current)
-git -C "$primary" worktree remove "$worktree"
+git -C "$primary" worktree remove --force "$worktree"
 git -C "$primary" branch -d "$branch"
 ```
+
+`--force` because ignored files such as `node_modules` make a plain `remove` refuse; the checks in step 1 are what protect the work.
 
 `branch -d` refuses a branch not merged into its upstream or `HEAD`. Use `-D` only when `git -C "$primary" log --oneline "$branch" --not --remotes=origin` is empty, since origin then holds every commit. Otherwise keep the branch and name it in the report.
 
@@ -58,7 +60,7 @@ rex kill "$session"
 
 Herdr: `herdr workspace close <id>`.
 
-When the session is the caller's own (`$REX_SESSION`), nothing after the kill runs: report first, then run steps 3 and 4 as one command, `git … worktree remove … && git … branch -d … && rex kill "$session"`.
+When the session is the caller's own (`$REX_SESSION`), nothing after the kill runs: report first, then run steps 3 and 4 as one command, `git … worktree remove --force … && git … branch -d … && rex kill "$session"`.
 
 ## Return
 
