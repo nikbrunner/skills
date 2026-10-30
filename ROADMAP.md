@@ -40,7 +40,9 @@ The web-ui project skills have moved ahead of their generic versions here. Gener
 
 ## Session skills, and Bob at user level
 
-The plan lives in [`plans/session-skills-and-bob.md`](plans/session-skills-and-bob.md).
+- `nbr-bob`: Bob, the notes session, for every circle: open and close the day, file reports, watch the load, hand out work.
+- `nbr-report-to-bob`: any session sends Bob its state, naming its circle.
+- Bob's own Rex session: the conversation in one tab, the daily notes side by side in the next.
 
 ## Make the engineering skills read well for colleagues
 

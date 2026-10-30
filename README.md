@@ -53,7 +53,7 @@ Each skill names its own requirements in the `compatibility` field of its `SKILL
 
 ### How they work together
 
-Arrows are references written in the skill files. Solid boxes are skills in this repo; dashed boxes are my ImFusion skills, which live in a private agents repo and build on these.
+Arrows are references written in the skill files. Solid boxes are skills in this repo. The dashed box stands for my work skills, which live in a private repo and build on these.
 
 ```mermaid
 flowchart LR
@@ -69,42 +69,33 @@ flowchart LR
     conventions["nbr-repo-conventions<br/>topics"]
     rsetup["nbr-repo-setup"]
     raudit["nbr-repo-audit"]
-    activity["nbr-activity<br/>one day's activity per circle"]
+    activity["nbr-activity<br/>one day's activity"]
     nlog["nbr-log<br/>private daily note"]
     things["nbr-changelog-things"]
   end
-  subgraph imf["ImFusion"]
-    bob["imfg-bob<br/>the notes session"]
-    report["imfg-report-to-bob<br/>a session reports in"]
-    ireview["imfg-pr-review<br/>Bitbucket PRs, Web UI lens"]
-    log["imfg-log<br/>work daily note"]
-  end
-  ireview -. extends .-> review
-  bob -- reviews --> ireview
-  bob --> log
-  report --> bob
+  work["work skills<br/>private repo"]
+  work -. extends .-> review
   review --> setup
   review --> teardown
   dispatch --> setup
-  teardown -- asks live agents --> report
+  teardown -- asks live agents for a report --> work
   review -- reads --> conventions
   rebuild --> buckets --> commit --> audit
   rsetup -- reads --> conventions
   raudit -- runs against --> conventions
   nlog --> activity
   things --> activity
-  log --> activity
-  classDef imfusion stroke-dasharray: 5 5
-  class bob,report,ireview,log imfusion
+  classDef private stroke-dasharray: 5 5
+  class work private
 ```
 
-**A PR review.** `nbr-pr-review` reads the PR, judges its shape and fills a brief, then has `nbr-session-setup` build a worktree on the PR's branch, a Rex session with the Agents, Edit and Shells tabs, and a Claude worker in the Agents tab. The worker reviews against `nbr-repo-conventions`, leaves its report in its pane, and stays for follow-ups. When I'm done, it runs `nbr-session-teardown` on its own session. `imfg-pr-review` is the same flow for Bitbucket, with the Web UI conventions and my frontend lane swapped into the brief.
+**A PR review.** `nbr-pr-review` reads the PR, judges its shape and fills a brief, then has `nbr-session-setup` build a worktree on the PR's branch, a Rex session with the Agents, Edit and Shells tabs, and a Claude worker in the Agents tab. The worker reviews against `nbr-repo-conventions`, leaves its report in its pane, and stays for follow-ups. When I'm done, it runs `nbr-session-teardown` on its own session. A work skill runs the same flow for another host, with its own conventions swapped into the brief.
 
 **A dispatch.** `nbr-dispatch` confirms the target repo with me, checks its state, writes the brief with the worker's boundary rules, and launches it through `nbr-session-setup`. The worker reports back to the dispatching session with a handoff.
 
-**A day with Bob.** Bob is my notes session, `imfg-bob`. Sessions report to it with `imfg-report-to-bob`, it keeps the work daily note through `imfg-log`, and it hands PR reviews to `imfg-pr-review`. Teardown asks any live agent for its report before it closes the session.
+**A day with Bob.** Bob is my notes session. It keeps the daily notes, takes the reports other sessions send it, and hands out reviews and tasks. For now it lives with my work skills; teardown asks any live agent for its report to Bob before it closes the session.
 
-**The day's record.** `nbr-activity` collects one day's commits, GitHub, Bitbucket and Jira activity per circle. `nbr-log` writes the private daily note from it, `imfg-log` the work note, and `nbr-changelog-things` logs it as Things items.
+**The day's record.** `nbr-activity` collects one day's commits and GitHub activity. `nbr-log` writes the private daily note from it, and `nbr-changelog-things` logs it as Things items.
 
 **Commits.** `nbr-git-commit` makes one commit: review, gate, commit, with `nbr-audit-docs` as the docs check. `nbr-git-commit-buckets` sorts a dirty tree into several commits through it, and `nbr-git-commit-rebuild` turns a run of commits back into a dirty tree for buckets.
 
@@ -156,7 +147,7 @@ The day's activity and its daily note, tasks in Things 3, and speech from Eleven
 
 | Skill                  | What it does                                               | Requires                                                                                                        |
 | ---------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `nbr-activity`         | Collect one day's activity per circle as compact text      | macOS, git, jq; `gh`; `bkt` and the ImFusion agents repo for work                                               |
+| `nbr-activity`         | Collect one day's commits and GitHub activity              | macOS, git, jq, `gh`                                                                                            |
 | `nbr-log`              | Write the day's development work into the private note     | `nbr-activity`, an Obsidian vault                                                                               |
 | `nbr-things`           | Manage Things 3 tasks on macOS                             | Things 3, the `things` CLI                                                                                      |
 | `nbr-changelog-things` | Log a day's development work as completed Things items     | Things 3, the `things` CLI, `nbr-activity`                                                                      |

@@ -21,7 +21,7 @@ gh pr view "<URL>" --json number,title,body,state,headRefName,baseRefName,isCros
 
 A state other than `OPEN` stops here. So does `isCrossRepository: true`: a PR from a fork has no `origin/<source>` to track; say so in one line.
 
-Name the PR's subject in two to four words from its title and description, the way Nik would say it out loud: `playwright-e2e` for "feat(e2e): add playwright end-to-end tests", `project-members` for "Feat/CP-230 members and roles in projects". Drop commit-type prefixes, ticket keys, and filler. That `<topic>` names everything this skill creates:
+Name the PR's subject in two to four words from its title and description, the way Nik would say it out loud: `playwright-e2e` for "feat(e2e): add playwright end-to-end tests", `project-members` for "Feat/ABC-12 members and roles in projects". Drop commit-type prefixes, ticket keys, and filler. That `<topic>` names everything this skill creates:
 
 - worktree folder and Rex session label: the worktree convention in the global agent instructions, e.g. `~/repos/nikbrunner/nbr.haus-project-members` labelled `Project members · PR 15`
 - agent name: `review-<number>-<topic>`, cut to 32 characters
