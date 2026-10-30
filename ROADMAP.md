@@ -4,7 +4,7 @@ Where this repo is heading: one home for my agent setup, with dots keeping only 
 
 ## Become the `agents` repo
 
-The repo grows from skills into the content of my agent setup, mirroring `imfusion/brunner/agents` on the work side.
+The repo grows from skills into the content of my agent setup, mirroring my work agents repo.
 
 - Rename the repo to `agents`. GitHub redirects the old URL, so `npx skills add nikbrunner/skills` keeps working.
 - Move the global `AGENTS.md` and the subagents (`common/.agents/AGENTS.md` and `common/.agents/agents/` in dots) into
@@ -23,11 +23,11 @@ tool config follows only if the split between the two repos gets in the way.
 
 - `plannotator-annotate`, `-last`, `-review` from the Plannotator installer, and `tldraw-offline` and `terminal-browser`
   from their apps. They can stay untracked, since their tools reinstall them.
-- The `imfg-*` links into the ImFusion agents repo. That repo needs its own install step for them first.
+- The `imfg-*` links into my work agents repo. That repo needs its own install step for them first.
 
-## Port the web-ui workflow improvements
+## Port the workflow improvements from work
 
-The web-ui project skills have moved ahead of their generic versions here. Generic parts to bring over:
+The project skills in a work repo have moved ahead of their generic versions here. Generic parts to bring over:
 
 - Commit and changelog: a light pre-commit next to a separate CI-parity pass, the changelog checked at commit time,
   breaking changes that still compile, the category read from the diff.
@@ -37,12 +37,6 @@ The web-ui project skills have moved ahead of their generic versions here. Gener
 - Worktree start and teardown: base branch from `origin/HEAD`, install in a new worktree, rebase-verify-fast-forward
   merges with no merge commits or force pushes.
 - `nbr-record-clip`: measure the loop cycle in the page instead of passing it by hand.
-
-## Session skills, and Bob at user level
-
-- `nbr-bob`: Bob, the notes session, for every circle: open and close the day, file reports, watch the load, hand out work.
-- `nbr-report-to-bob`: any session sends Bob its state, naming its circle.
-- Bob's own Rex session: the conversation in one tab, the daily notes side by side in the next.
 
 ## Make the engineering skills read well for colleagues
 

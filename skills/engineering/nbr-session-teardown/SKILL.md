@@ -10,7 +10,11 @@ Clears what a session left behind, in the reverse order of `nbr-session-setup`. 
 
 ## Inputs
 
-A Rex session or Herdr workspace, or a worktree path. From either, resolve the other: the session whose panes have the worktree as `cwd` (as `nbr-session-setup` matches them), or the worktree those panes sit in. A main checkout stays: only a linked worktree, whose `git rev-parse --git-common-dir` is not its own `.git`, gets removed.
+A Rex session or Herdr workspace, or a worktree path. From either, resolve the other: the session whose panes have the worktree as `cwd` (as `nbr-session-setup` matches them), or the worktree those panes sit in. A main checkout stays: only a linked worktree, whose `git rev-parse --git-common-dir` is not its own `.git`, gets removed. Its primary checkout holds that common dir:
+
+```sh
+primary=$(dirname "$(git -C "$worktree" rev-parse --path-format=absolute --git-common-dir)")
+```
 
 ## 1. Check
 
