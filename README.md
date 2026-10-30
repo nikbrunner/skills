@@ -58,6 +58,8 @@ Arrows are references written in the skill files. Solid boxes are skills in this
 ```mermaid
 flowchart LR
   subgraph user["This repo"]
+    bob["nbr-bob<br/>the day, reports, load, handing out"]
+    report["nbr-report-to-bob<br/>any session reports in"]
     dispatch["nbr-dispatch<br/>a task to another repo"]
     review["nbr-pr-review<br/>GitHub PRs"]
     setup["nbr-session-setup<br/>worktree, session, agent"]
@@ -74,11 +76,18 @@ flowchart LR
     things["nbr-changelog-things"]
   end
   work["work skills<br/>private repo"]
+  report --> bob
+  bob -- reviews --> review
+  bob -- tasks --> dispatch
+  bob -- merged or day closed --> teardown
+  bob --> nlog
+  bob --> activity
   work -. extends .-> review
+  work -. adds a circle .-> bob
   review --> setup
   review --> teardown
   dispatch --> setup
-  teardown -- asks live agents for a report --> work
+  teardown -- asks live agents --> report
   review -- reads --> conventions
   rebuild --> buckets --> commit --> audit
   rsetup -- reads --> conventions
@@ -89,11 +98,11 @@ flowchart LR
   class work private
 ```
 
+**A day with Bob.** `nbr-bob` runs Bob, my notes session. It opens and closes the day in every circle's daily note, the private one in my Obsidian vault and one per work circle that a work skill adds. Other sessions send it their state with `nbr-report-to-bob`, and it files each report in the right note. It hands PR reviews and tasks out through `nbr-pr-review` and `nbr-dispatch`, watches how much runs at once, and at day close tears down sessions whose work merged.
+
 **A PR review.** `nbr-pr-review` reads the PR, judges its shape and fills a brief, then has `nbr-session-setup` build a worktree on the PR's branch, a Rex session with the Agents, Edit and Shells tabs, and a Claude worker in the Agents tab. The worker reviews against `nbr-repo-conventions`, leaves its report in its pane, and stays for follow-ups. When I'm done, it runs `nbr-session-teardown` on its own session. A work skill runs the same flow for another host, with its own conventions swapped into the brief.
 
 **A dispatch.** `nbr-dispatch` confirms the target repo with me, checks its state, writes the brief with the worker's boundary rules, and launches it through `nbr-session-setup`. The worker reports back to the dispatching session with a handoff.
-
-**A day with Bob.** Bob is my notes session. It keeps the daily notes, takes the reports other sessions send it, and hands out reviews and tasks. For now it lives with my work skills; teardown asks any live agent for its report to Bob before it closes the session.
 
 **The day's record.** `nbr-activity` collects one day's commits and GitHub activity. `nbr-log` writes the private daily note from it, and `nbr-changelog-things` logs it as Things items.
 
@@ -143,10 +152,12 @@ Install these first:
 
 ### Personal
 
-The day's activity and its daily note, tasks in Things 3, and speech from ElevenLabs.
+Bob and the daily notes, tasks in Things 3, and speech from ElevenLabs.
 
 | Skill                  | What it does                                               | Requires                                                                                                        |
 | ---------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `nbr-bob`               | Run Bob, the notes session, through the day across circles | Rex, `nbr-activity`, `nbr-log`                                                                                  |
+| `nbr-report-to-bob`      | Send this session's state to Bob                           | Claude Code; Rex or Herdr across accounts                                                                       |
 | `nbr-activity`         | Collect one day's commits and GitHub activity              | macOS, git, jq, `gh`                                                                                            |
 | `nbr-log`              | Write the day's development work into the private note     | `nbr-activity`, an Obsidian vault                                                                               |
 | `nbr-things`           | Manage Things 3 tasks on macOS                             | Things 3, the `things` CLI                                                                                      |
